@@ -1,0 +1,13 @@
+<div class="comment">
+    <header class="header">
+      <p><span><strong>{{comment.userId.username}}</strong></span> posted on <time>{{comment.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</time></p>
+    </header>
+    <div class="comment-main">
+      <div class="userdetails">
+        <img src="../../../../assets/profile-pic.jpg" alt="avatar">
+      </div>
+      <div class="post-content">
+        <p>{{comment.postText}}</p>
+      </div>
+    </div>
+</div>

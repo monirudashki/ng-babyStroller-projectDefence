@@ -1,0 +1,18 @@
+<div *ngIf="!strollersCatalog">
+    ...loading
+</div>
+
+<ng-container *ngIf="!!strollersCatalog">
+    <section id="dashboard">
+        <h2>Collectibles</h2>
+        <ul>
+            <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
+                <app-catalog-item [stroller]="stroller"></app-catalog-item>
+            </div>
+        </ul>
+    
+        <div *ngIf="strollersCatalog.length === 0">
+            <h2>There are no items added yet.</h2>
+        </div>
+    </section>
+</ng-container>

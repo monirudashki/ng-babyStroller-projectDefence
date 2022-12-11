@@ -1,0 +1,97 @@
+<ng-container *ngIf="!isEditMode">
+    <div class="profile"><img src="../../../assets/profile-pic.jpg" alt="default user">
+        <h3>User Info:</h3>
+        <div class="flex">
+            <p>Username: </p>
+            <p>{{ (currentUser$ | async)?.username}}</p>
+        </div>
+        <div class="flex">
+            <p>Email: </p>
+            <p>{{(currentUser$ | async)?.email}}</p>
+        </div>
+        <div class="flex">
+            <p>Phone: </p>
+            <p>{{(currentUser$ | async)?.tel}}</p>
+        </div>
+        <button (click)="editHandler()" class="blue-button">Edit</button>
+    </div>
+
+    <div *ngIf="!userCatalog">
+        ...loading
+    </div>
+
+    <ng-container *ngIf="!!userCatalog">
+        <section id="dashboard">
+            <h2>Collectibles</h2>
+            <ul>
+                <div *ngFor="let stroller of userCatalog" class="card-wrapper">
+                    <li class="card">
+                        <img src="{{stroller.imageUrl}}" alt="travis" />
+                        <p>
+                          <strong>Brand: </strong><span class="brand">{{stroller.babyStrollerBrand}}</span>
+                        </p>
+                        <p>Value:<span class="value">{{stroller.price}}</span>$</p>
+                        <p>CreatedAt:<span class="value">{{stroller.created_at}}</span></p>
+                      
+                        <a class="details-btn" [routerLink]="['/strollers', stroller._id]">Details</a>
+                    </li>
+                </div>
+            </ul>
+
+            <div *ngIf="userCatalog.length === 0">
+                <h2>There are no items added yet.</h2>
+            </div>
+        </section>
+    </ng-container>
+</ng-container>
+
+<div *ngIf="isEditMode" class="container">
+    <div class="profile">
+        <img src="../../../assets/profile-pic.jpg" alt="default user">
+        <h3>User Info:</h3>
+        <form [formGroup]="profileEditFormGroup" (ngSubmit)="updateProfile()">
+            <div class="flex">
+                <p>Username: </p>
+                <input type="text" name="username" id="username" value="dsadas" formControlName="username">
+            </div>
+
+            <ng-container
+                *ngIf="profileEditFormGroup.controls['username'].touched && profileEditFormGroup.controls['username'].invalid">
+                <p *ngIf="profileEditFormGroup.controls['username'].errors!['required']" class="error">
+                    Username is required!
+                </p>
+                <p *ngIf="!profileEditFormGroup.controls['username'].errors!['required'] && profileEditFormGroup.controls['username'].errors!['minlength']"
+                    class="error">
+                    Username must be at least 5 symbols!
+                </p>
+            </ng-container>
+
+            <div class="flex">
+                <p>Email: </p>
+                <input type="email" name="email" id="email" formControlName="email">
+            </div>
+
+            <ng-container
+                *ngIf="profileEditFormGroup.controls['email'].touched && profileEditFormGroup.controls['email'].invalid">
+                <p *ngIf="profileEditFormGroup.controls['email'].errors!['required']" class="error">
+                    Email is required!
+                </p>
+                <p *ngIf="!profileEditFormGroup.controls['email'].errors!['required'] && profileEditFormGroup.controls['email'].errors!['pattern']"
+                    class="error">
+                    Email is not valid!
+                </p>
+            </ng-container>
+
+            <div class="flex">
+                <p>Phone: </p>
+                <div>
+                    <input type="text" name="tel" id="tel" value="885 888 888" formControlName="tel">
+                </div>
+            </div>
+            <button type="button" (click)="cancelHandler()" class="red-button">Cancel</button>
+            <button [disabled]="profileEditFormGroup.invalid"
+                [ngStyle]="{'backgroundColor': profileEditFormGroup.valid === false ? 'red' : 'green' }"
+                class="green-button">Save</button>
+        </form>
+    </div>
+</div>

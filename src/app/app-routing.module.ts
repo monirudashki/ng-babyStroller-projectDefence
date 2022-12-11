@@ -1,0 +1,39 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './feature/pages/home/home.component';
+import { PageNotFoundComponent } from './feature/pages/page-not-found/page-not-found.component';
+import { SearchPageComponent } from './feature/pages/search-page/search-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(module => module.AuthModule)
+  },
+  {
+    path: 'strollers',
+    loadChildren: () => import('./feature/strollers/strollers.module').then(module => module.StrollersModule)
+  },
+  {
+    path: 'search',
+    component: SearchPageComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

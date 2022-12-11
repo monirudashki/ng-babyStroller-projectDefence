@@ -1,0 +1,187 @@
+#details-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: white;
+  margin: 50px auto;
+  min-height: 400px;
+  max-width: 700px;
+  border: 2px ridge rgb(210, 208, 208);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
+#img-wrapper {
+  max-width: 35%;
+}
+
+#img-wrapper img {
+  width: 100%;
+  min-height: 300px;
+  display: block;
+}
+
+#details-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 29px;
+  width: 100%;
+}
+
+#info-wrapper {
+  display: block;
+  width: 65%;
+}
+
+#info-wrapper > p {
+  width: 90%;
+  margin: 30px auto;
+  height: auto;
+  text-align: center;
+  font-weight: bold;
+}
+
+#info-wrapper > p > span {
+  font-weight: lighter;
+}
+
+h4 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  font-size: 19px;
+}
+
+span {
+  font-size: 17px;
+}
+
+#action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+#action-buttons a {
+  text-decoration: none;
+  margin: auto 50px;
+  font-size: 21px;
+  width: 130px;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  background: #818383;
+  border-radius: 10px;
+}
+
+.post {
+  max-width: 550px;
+  margin: auto;
+  display: block;
+}
+
+/* comment  */
+
+.comment {
+margin-top: 1em;
+border: 1px solid;
+border-radius: 0.3em;
+width: 100%;
+padding: 1em;
+}
+
+.comment header p {
+padding: 0.3em;
+text-align: center;
+background-color: #ffffff;
+border-bottom: 1px dashed;
+margin-right: 0;
+}
+
+.comment-main {
+margin: 1em;
+display: flex;
+}
+
+.userdetails {
+display: flex;
+flex-direction: column;
+text-align: center;
+}
+
+.userdetails p {
+padding-left: 0;
+text-align: left;
+}
+
+.post-content p {
+padding-left: 1.5em;
+}
+
+.userdetails div {
+border: 1px solid;
+display: flex;
+justify-content: center;
+}
+
+.userdetails img {
+padding: 0;
+align-self: center;
+margin: 1em 0;
+width: 5em;
+height: 5em;
+border: 1px solid;
+}
+
+/* answer-comment */
+h2 {
+  margin: auto;
+}
+
+.answer-comment {
+  width: 60%;
+  display: flex;
+  margin-top: 1em;
+  margin-bottom: 50px; 
+}
+
+.answer-comment p {
+flex-basis: 15%;
+padding-bottom: 0.3em;
+}
+
+.answer-comment p span {
+color: rgb(0, 128, 182);
+font-size: 1.2em;
+}
+
+.answer {
+border: 1px solid;
+border-radius: 0.3em;
+flex-basis: 85%;
+text-align: center;
+}
+
+.answer textarea {
+width: 90%;
+margin-top: 1rem;
+border-radius: 0.5rem;
+}
+
+.answer button {
+color: white;
+margin: 0.5em 1em;
+padding: 0.2em 1em;
+border: 1px solid;
+border-radius: 0.3em;
+}
+
+.answer button:hover {
+cursor: pointer;
+}
+
+.comment-area {
+min-width: 100%
+}

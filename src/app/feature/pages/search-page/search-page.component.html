@@ -1,0 +1,47 @@
+<section id="search">
+    <h2>Search by Brand</h2>
+
+    <select (change) = "searchByHandler($any($event.target).value)" name="searchBy" id="searchBy">
+            <option value="babyStrollerBrand">Brand</option>
+            <option value="condition">Condition</option>
+            <option value="price">Price</option>
+    </select>
+
+    <form *ngIf="searchingBY === 'babyStrollerBrand'" [formGroup]="searchFormGroup" (ngSubmit)="searchByBrandHandler()" class="search-wrapper cf">
+     
+        <input id="#search-input" type="text" name="search" placeholder="Search here..." formControlName="search"/>
+        <button type="submit">Search</button>
+    </form>
+
+    <form *ngIf="searchingBY === 'condition'" [formGroup]="searchByConditionFormGroup" (ngSubmit)="searchByConditionHandler()" class="search-wrapper cf">
+     
+        <select name="searchBy" id="searchBy" formControlName="searchByCondition">
+            <option value="new">New</option>
+            <option value="use">Use</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <form *ngIf="searchingBY === 'price'" [formGroup]="searchByPriceFormGroup" (ngSubmit)="searchByPriceHandler()" class="search-wrapper cf">
+     
+        <input type="number" id="quantity" name="quantity" step="10" formControlName="min">
+        <input type="number" id="quantity" name="quantity" step="10" formControlName="max">
+
+        <button type="submit">Search</button>
+    </form>
+    
+    <ng-container *ngIf="!!strollersResult">
+        <h3>Results:</h3>
+    
+        <div *ngIf="strollersResult.length > 0" id="search-container">
+            <ul *ngFor="let stroller of strollersResult" class="card-wrapper">
+                <!-- Display a li with information about every post (if any)-->
+                <app-catalog-item [stroller]="stroller"></app-catalog-item>
+            </ul>
+        </div>
+    
+        <div *ngIf="strollersResult.length === 0">
+            <h2>There are no results found.</h2>
+        </div>
+    </ng-container>
+</section>

@@ -1,0 +1,75 @@
+<section id="edit">
+    <div class="form">
+
+        <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
+
+        <h2>Add item</h2>
+        <form [formGroup]="editFormGroup" (ngSubmit)="editHandle()" class="create-form">
+            <div>
+                <label for="babyStrollerBrand">*Brand: </label>
+                <input type="text" name="brand" id="brand" placeholder="Brand" formControlName="babyStrollerBrand"/>
+            </div>
+
+            <ng-container *ngIf="editFormGroup.controls['babyStrollerBrand'].touched && editFormGroup.controls['babyStrollerBrand'].invalid">
+                <p *ngIf="editFormGroup.controls['babyStrollerBrand'].errors!['required']" class="error">
+                    Babystroller brand is required!
+                </p>
+            </ng-container>
+             
+            <div>
+                <label for="imageUrl">*ImageUrl: </label>
+                <input type="text" name="imageUrl" id="imageUrl" placeholder="imageUrl" formControlName="imageUrl"/>
+            </div>
+
+            <ng-container *ngIf="editFormGroup.controls['imageUrl'].touched && editFormGroup.controls['imageUrl'].invalid">
+                <p *ngIf="editFormGroup.controls['imageUrl'].errors!['required']" class="error">
+                    imageUrl is required!
+                </p>
+            </ng-container>
+            
+            <div>
+                <label for="year">*Year: </label>
+                <input type="number" name="year" id="year" placeholder="Year" formControlName="year"/>
+            </div>
+
+            <ng-container *ngIf="editFormGroup.controls['year'].touched && editFormGroup.controls['year'].invalid">
+                <p *ngIf="editFormGroup.controls['year'].errors!['required']" class="error">
+                    Year is required!
+                </p>
+            </ng-container>
+            
+            <div>
+                <label for="price">*Price: </label>
+                <input type="number" name="model" id="price" placeholder="Price" formControlName="price"/>
+            </div>
+
+            <ng-container *ngIf="editFormGroup.controls['price'].touched && editFormGroup.controls['price'].invalid">
+                <p *ngIf="editFormGroup.controls['price'].errors!['required']" class="error">
+                    Price is required!
+                </p>
+                <p *ngIf="editFormGroup.controls['price'].errors!['min']" class="error">
+                    Price must be positive number!
+                </p>               
+            </ng-container>
+            
+            <div>
+                <label for="condition">*Condition: </label>
+                <select name="condition" id="condition" formControlName="condition">
+                    <option value="new">New</option>
+                    <option value="use">Use</option>
+                </select>
+            </div>
+
+            <ng-container *ngIf="editFormGroup.controls['condition'].touched && editFormGroup.controls['condition'].invalid">
+                <p *ngIf="editFormGroup.controls['condition'].errors!['required']" class="error">
+                    Condition is required!
+                </p>
+            </ng-container>
+            
+            <div class="buttons">
+                <button type="button" (click)="cancelHandle()">cancel</button>
+                <button type="submit" [disabled]="editFormGroup.invalid" [ngStyle]="{'backgroundColor': editFormGroup.valid === false ? 'red' : 'green' }">Post</button>
+            </div>
+        </form>
+    </div>
+</section>

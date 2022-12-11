@@ -1,0 +1,59 @@
+<div *ngIf="!!stroller else loadingIndicator" class="theme-content">
+
+  <section id="details">
+    <div id="details-wrapper">
+      <p id="details-title">Shoe Details</p>
+      <div id="img-wrapper">
+        <img src="{{stroller.imageUrl}}" alt="example1" />
+      </div>
+      <div id="info-wrapper">
+        <p>Brand: <span id="details-brand">{{stroller.babyStrollerBrand}}</span></p>
+        <p>
+          Model: <span id="details-model">{{stroller.condition}}</span>
+        </p>
+        <p>Created At: <span id="details-release">{{stroller.created_at}}</span></p>
+        <p>Year: <span id="details-designer">{{stroller.year}}</span></p>
+        <p>Value: <span id="details-value">{{stroller.price}}</span></p>
+        <p>Likes: <span id="details-value">{{stroller.likes.length}}</span></p>
+      </div>
+
+      <div *ngIf="isOwner" id="action-buttons">
+        <a routerLink='/strollers/{{stroller._id}}/edit' id="edit-btn">Edit</a>
+        <a href="javascript:void(0)" (click)="deleteStrollerHandle()" id="delete-btn">Delete</a>
+      </div>
+
+      <div *ngIf="!isOwner && canLike">
+        <button type="button" (click)="likeHandler()">Like</button>
+        <a routerLink='/strollers/userStrollers/{{stroller.userId}}'>User Strollers</a>
+      </div>
+
+      <div *ngIf="!isOwner && !canLike">
+        <button type="button" (click)="unLikeHandler()">Unlike</button>
+      </div>
+    </div>
+
+    <div *ngIf="commentsList.length > 0">
+      <div *ngFor="let comment of commentsList" class="post">
+        <app-comment-page-item [comment]="comment"></app-comment-page-item>
+      </div>
+    </div>
+    
+    <div *ngIf="stroller.comments.length === 0">
+        <h2>There is no comments yet.</h2>
+    </div>
+  
+  <div class="answer-comment">
+    <p><span>currentUser</span> comment:</p>
+    <div class="answer">
+      <form [formGroup]="commentFormGroup" (ngSubmit)="postHandler()">
+        <textarea name="postText" id="comment" cols="30" rows="10" formControlName="postText"></textarea>
+        <button>Post</button>
+      </form>
+    </div>
+  </div>
+  </section>
+</div>
+
+<ng-template #loadingIndicator>
+  Loading...
+</ng-template>
