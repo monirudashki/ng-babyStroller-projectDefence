@@ -9,14 +9,50 @@ import { StrollersService } from 'src/app/core/strollers.service';
 })
 export class CatalogComponent implements OnInit {
 
+  page: number = 1;
+  limit: number = 3;
+  lastPage!: number;
   strollersCatalog!: IBabyStroller[];
 
   constructor(private strollersService: StrollersService) { }
 
   ngOnInit(): void {
-    this.strollersService.loadStrollers$().subscribe(
-      (strollersList) => this.strollersCatalog = strollersList
+    this.strollersService.getStrollersLength$().subscribe(
+      (strollersLength) => {
+         this.lastPage = Math.ceil(strollersLength / this.limit);
+      }
     )
+
+    this.strollersService.loadStrollers$(this.page).subscribe(
+      (strollersList) => {
+        this.strollersCatalog = strollersList;
+      } 
+    )
+  }
+
+  pageMinusHandler() {
+    if(this.page > 1) {
+      this.page--;
+    }
+
+    this.strollersService.loadStrollers$(this.page).subscribe(
+      (strollersList) => {
+        this.strollersCatalog = strollersList;
+      } 
+    );
+  }
+
+  pagePlusHandler() {
+    if(this.page < this.lastPage) {
+      this.page++;
+    }
+
+    this.strollersService.loadStrollers$(this.page).subscribe(
+      (strollersList) => {
+        this.strollersCatalog = strollersList;
+        console.log(strollersList);
+      } 
+    );
   }
 
 }

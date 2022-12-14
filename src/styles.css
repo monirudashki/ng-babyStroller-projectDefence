@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-image: url(../src/assets/stroller-2-e1592162897125.webp);
+    background-position: center;
+    background-size: cover;
+    /* padding: 0 7%; */
+}

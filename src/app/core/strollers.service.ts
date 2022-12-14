@@ -18,10 +18,14 @@ export class StrollersService {
     return this.httpClient.post<IBabyStroller>(`${environment.apiUrl}/stroller`, strollerData, { withCredentials: true })
   }
 
-  loadStrollers$(): Observable<IBabyStroller[]> {
-    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller`);
+  loadStrollers$(page: number): Observable<IBabyStroller[]> {
+    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller?page=${page}`);
   }
 
+  getStrollersLength$(): Observable<number> {
+    return this.httpClient.get<number>(`${environment.apiUrl}/stroller/strollersLength`);
+  }
+ 
   loadStrollerById$(id: string): Observable<IBabyStroller> {
     return this.httpClient.get<IBabyStroller>(`${apiUrl}/stroller/${id}`);
   }

@@ -17,7 +17,7 @@ export class AuthService {
   isLogged$ = this.currentUser$.pipe(
     tap((user) => console.log(user)),
     map((user) => !!user)
-    );
+  );
 
   constructor(private httpClient: HttpClient , private store: Store<IRootState>) { }
 

@@ -1,35 +1,41 @@
-<section id="login">
-    <div class="form">
-        <h2>Login</h2>
-        <form [formGroup]="loginFormGroup" (ngSubmit)="loginHandler()" class="login-form">
-            <input type="text" name="email" id="email" placeholder="email" formControlName="email"/>
+<main>
+    <section id="login">
+        <div class="form">
+            <h2>Login</h2>
 
-            <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid">
-                <p *ngIf="loginFormGroup.controls['email'].errors!['required']" class="error">
-                    Email is required!
+            <div class="error" *ngIf="errorMessage">
+                {{errorMessage}}
+            </div>
+
+            <form [formGroup]="loginFormGroup" (ngSubmit)="loginHandler()" class="login-form">
+                <input type="text" name="email" id="email" placeholder="email" formControlName="email"/>
+    
+                <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid">
+                    <p *ngIf="loginFormGroup.controls['email'].errors!['required']" class="error">
+                        Email is required!
+                    </p>
+                    <p *ngIf="!loginFormGroup.controls['email'].errors!['required'] && !loginFormGroup.controls['email'].errors!['email']" class="error">
+                        Email is not valid!
+                    </p>
+                </ng-container>
+    
+                <input type="password" name="password" id="password" placeholder="password" formControlName="password"/>
+    
+                <ng-container *ngIf="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid">
+                    <p *ngIf="loginFormGroup.controls['password'].errors!['required']" class="error">
+                        Password is required!
+                    </p>
+                    <p *ngIf="loginFormGroup.controls['password'].errors!['minlength']" class="error">
+                        Password must be at least 5 characters!
+                    </p>
+                </ng-container >
+    
+                <button *ngIf="!isLoginActive"
+                [disabled]="loginFormGroup.invalid" [ngStyle]="{'backgroundColor': loginFormGroup.valid === false ? 'red' : 'green' }" type="submit">login</button>
+                <p class="message">
+                    Not registered? <a routerLink="/auth/register">Create an account</a>
                 </p>
-                <p *ngIf="!loginFormGroup.controls['email'].errors!['required'] && !loginFormGroup.controls['email'].errors!['email']">
-                    Email is not valid!
-                </p>
-            </ng-container>
-
-            <input type="password" name="password" id="password" placeholder="password" formControlName="password"/>
-
-            <ng-container *ngIf="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid">
-                <p *ngIf="loginFormGroup.controls['password'].errors!['required']" class="error">
-                    Password is required!
-                </p>
-                <p *ngIf="loginFormGroup.controls['password'].errors!['minlength']" class="error">
-                    Password must be at least 5 characters!
-                </p>
-            </ng-container >
-
-            <button [disabled]="loginFormGroup.invalid" [ngStyle]="{'backgroundColor': loginFormGroup.valid === false ? 'red' : 'green' }" type="submit">login</button>
-            <p class="message">
-                Not registered? <a routerLink="/auth/register">Create an account</a>
-            </p>
-        </form>
-    </div>
-</section>
-
-<!-- TODO correct input border class to work -->
+            </form>
+        </div>
+    </section>
+</main>

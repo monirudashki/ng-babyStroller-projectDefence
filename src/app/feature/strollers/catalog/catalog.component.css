@@ -1,46 +1,84 @@
-#dashboard {
+.catalog {
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 1000px;
+  height: 480px;
+  /* border-radius: 10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: rgba(70, 20, 158); */
+}
+
+.catalog h2 {
+  margin: auto;
+  margin-top: 200px;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 40px;
+  color: white;
+}
+
+.card-wrapper {
+  list-style-type: none;
+  display: inline-block;
+  margin-left: 20px;
+  flex-wrap: wrap;
+}
+
+.pagination {
+  margin: auto;
+  margin-left: 333px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.button {
+  width: 120px;
+  height: 40px;
+}
+
+.pagination p {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 30px;
+}
+
+/* .card img {
+  margin: auto;
+  height: 30px;
+  width: 30px;
+}
+.card-wrapper h2 {
+  margin: auto;
+}
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100px;
+  height: 100px;
+  margin: 25px auto;
+  background-color: white;
+  border-radius: 5px;
+  border: 2px ridge rgb(210, 208, 208);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+} */
+/* #dashboard {
     display: inline;
     margin-top: 50px;
   }
   
-  h2 {
-    text-align: center;
-    font-size: 40px;
-  }
-  
-  .card img {
-    margin: auto;
-    height: 290px;
-    width: 95%;
-  }
-  
-  .card-wrapper {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .card-wrapper h2 {
-    margin: auto;
-  }
   
   .title,
   .salary {
     font-size: 21px;
   }
   
-  .card {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 23%;
-    height: 500px;
-    margin: 25px auto;
-    background-color: white;
-    border-radius: 5px;
-    border: 2px ridge rgb(210, 208, 208);
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
-  }
   
   .details-btn {
     text-decoration: none;
@@ -65,4 +103,5 @@
   .card span {
     padding: 10px;
     margin: auto;
-  }
+  } */
+

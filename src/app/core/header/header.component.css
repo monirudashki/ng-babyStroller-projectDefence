@@ -1,35 +1,36 @@
-body {
-    color: rgb(68, 67, 67);
+/* body {
+    color: rgba(70, 20, 158);
     background: rgb(228, 227, 227);
     margin: 0;
     padding: 0;
     overflow: auto;
-  }
+} */
   
-  header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.3em 3em;
-    background: #7d7e7e;
-  }
+    padding: 10px 0px;
+    background: rgba(70, 20, 158);
+}
   
-  nav {
-    background-color: #7a6e6e;
-    height: 0px;
+nav {
+    background-color: rgba(70, 20, 158);
+    height: 20px;
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
     color: aliceblue;
-  }
+}
   
-  #logo {
+#logo {
     font-style: italic;
     font-size: 30px;
-  }
+    padding: 0px 10px;
+}
   
   #logo-img {
-    height: 30px;
+    height: 35px;
   }
   
   nav a {
@@ -39,7 +40,7 @@ body {
   }
   
   header a {
-    padding: 0 10px;
+    padding: 0 30px;
     text-decoration: none;
     color: aliceblue;
   }
@@ -48,34 +49,8 @@ body {
     color: rgb(202, 203, 204);
   }
   
-  section {
+/* section {
     margin-bottom: 100px;
-  }
-  
-  #home {
-    margin-top: 100px;
-  }
-  
-  #home img {
-    display: block;
-    margin: auto;
-    height: 30%;
-    width: 30%;
-    background-color: transparent;
-  }
-  
-  #home h1 {
-    font-style: italic;
-    font-size: 39px;
-    color: rgb(68, 67, 67);
-    text-align: center;
-  }
-  
-  #home h2,
-  #home h3 {
-    font-style: italic;
-    font-size: 27px;
-    color: rgb(68, 67, 67);
-    text-align: center;
-  }
+} */
+
   

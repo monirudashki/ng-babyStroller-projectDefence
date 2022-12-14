@@ -13,6 +13,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
 })
 export class ProfileComponent implements OnInit {
 
+  errorMessage: string = '';
+  isUpdating: boolean = false;
   currentUser$: Observable<IUser> = this.authService.currentUser$;
   currentUser: IUser = undefined as unknown as IUser;
   isEditMode: boolean = false;
@@ -35,7 +37,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser$.subscribe({
       next: (user) => {
-        console.log(user);
         this.currentUser = user;
       }
     });
@@ -58,14 +59,20 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile(): void {
+    this.isUpdating = true;
+    this.errorMessage = '';
     this.authService.editProfileInfo$(this.profileEditFormGroup.value).subscribe({
       next: (user) => { 
+        this.isUpdating = false;
         this.authService.handleLogin(user);
         this.isEditMode = false;
         this.router.navigate(['/auth/profile']);
       },
       complete: () => console.log('edit profile completed'),
-      error: (err) => console.error(err) 
+      error: (error) => {
+        this.isUpdating = false;
+        this.errorMessage = 'Email has been already registered!';
+      }  
     });
   }
 

@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  isLoginActive: boolean = false;
   errorMessage: string = '';
   
   loginFormGroup: FormGroup = this.formBuilder.group({
@@ -23,16 +24,18 @@ export class LoginComponent implements OnInit {
   }
 
   loginHandler(): void {
+    this.isLoginActive = true;
     this.errorMessage = '';
     this.authService.login$(this.loginFormGroup.value).subscribe({
-        next: () => this.router.navigate(['/home']),
+        next: () => {
+          this.isLoginActive = false;
+          this.router.navigate(['/home'])
+        },
         complete: () => console.log('login complete'),
-        error: (error) => this.errorMessage = error.error.message
+        error: (error) => {
+          this.isLoginActive = false;
+          this.errorMessage = error.error.message
+        } 
     })
   }
-
-  // hasUser(): void {
-  //    this.authService.hasUser$().subscribe(answer => console.log(typeof answer));
-  // }
-
 }

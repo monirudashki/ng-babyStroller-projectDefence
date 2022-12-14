@@ -11,6 +11,9 @@ import { passwordMatch } from '../utils';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+
+  errorMessage: string = '';
+  isRegistrationActive: boolean = false;
   
   passwordControl = new FormControl('', [Validators.required, Validators.minLength(4)],);
   
@@ -25,7 +28,7 @@ export class RegisterComponent implements OnInit {
       password: this.passwordControl,
       rePass: new FormControl('', [Validators.required, passwordMatch(this.passwordControl)])
     }),
-    phone: new FormControl('')
+    tel: new FormControl('')
   });
 
   constructor(private formBuilder: FormBuilder , private authService: AuthService , private router: Router) { }
@@ -34,7 +37,8 @@ export class RegisterComponent implements OnInit {
   }
 
   handleRegistration(): void {
-    const { username, email, passwords, phone} =
+    this.isRegistrationActive = true;
+    const { username, email, passwords, tel} =
       this.registerFormGroup.value;
 
     const body: ICreateUserDto = {
@@ -43,12 +47,21 @@ export class RegisterComponent implements OnInit {
       password: passwords.password,
     };
 
-    if (phone) {
-      body.phone = phone;
+    if (tel) {
+      body.tel = tel;
     }
 
-    this.authService.register$(body).subscribe(() => {
-      this.router.navigate(['/home']);
+    this.authService.register$(body).subscribe({
+      next: () => {
+        this.isRegistrationActive = false;
+        this.errorMessage = '';
+        this.router.navigate(['/home']);
+      },
+      complete: () => console.log('registration complete'),
+      error: (error) => {
+        this.isRegistrationActive = false;
+        this.errorMessage = error.error.message
+      } 
     });
   }
 

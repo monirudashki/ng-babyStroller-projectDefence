@@ -1,6 +1,11 @@
 <section id="register">
   <div class="form">
-    <h2>Register</h2>
+    <h2>Registration</h2>
+
+    <div class="error" *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+
     <form [formGroup]="registerFormGroup" (ngSubmit)="handleRegistration()" class="login-form">
       <input type="text" name="username" id="register-username" placeholder="username" formControlName="username"
         [class.input-error]="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid" />
@@ -52,9 +57,10 @@
          </ng-container>
       </div>
 
-      <input type="number" name="phone" id="register-phone" placeholder="phone" formControlName="phone"/>
+      <input type="number" name="phone" id="register-phone" placeholder="phone" formControlName="tel"/>
 
-      <button type="submit" [disabled]="registerFormGroup.invalid" [ngStyle]="{'backgroundColor': registerFormGroup.valid === false ? 'red' : 'green' }">login</button>
+      <button type="submit" *ngIf="!isRegistrationActive"
+      [disabled]="registerFormGroup.invalid" [ngStyle]="{'backgroundColor': registerFormGroup.valid === false ? 'red' : 'green' }">Register</button>
       <p class="message">Already registered? <a routerLink="/auth/login">Login</a></p>
     </form>
   </div>
