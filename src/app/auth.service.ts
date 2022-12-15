@@ -65,6 +65,10 @@ export class AuthService {
   editProfileInfo$(userData: ICreateUserDto): Observable<IUser> {
     return this.httpClient.put<IUser>(`${environment.apiUrl}/users/profile`, userData, { withCredentials: true });
   }
+
+  loadUserProfileById$(userId: string): Observable<IUser> {
+    return this.httpClient.get<IUser>(`${environment.apiUrl}/users/profile/${userId}`, { withCredentials: true });
+  }
   
 }
 

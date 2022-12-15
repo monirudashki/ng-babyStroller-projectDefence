@@ -19,14 +19,17 @@ const routes: Routes = [
     },
     {
         path: 'userStrollers/:userId',
+        canActivate: [AuthGuard],
         component: UserStrollersPageComponent
     },
     {
         path: ':id',
+        canActivate: [AuthGuard],
         component: CatalogDetailsPageComponent
     },
     {
         path: ':id/edit',
+        canActivate: [AuthGuard],
         component: CatalogEditPageComponent
     }
 ]

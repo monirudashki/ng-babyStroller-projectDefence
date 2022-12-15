@@ -1,181 +1,116 @@
-#dashboard {
-  display: inline;
-  margin-top: 50px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 40px;
-}
-
-.card img {
+.select {
+  width: 1000px;
+  height: 50px;
   margin: auto;
-  height: 290px;
-  width: 95%;
+  margin-top: 20px;
 }
 
-.card-wrapper {
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.card-wrapper h2 {
-  margin: auto;
-}
-
-.title,
-.salary {
-  font-size: 21px;
-}
-
-.card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 23%;
-  height: 500px;
-  margin: 25px auto;
-  background-color: white;
-  border-radius: 5px;
-  border: 2px ridge rgb(210, 208, 208);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
-}
-
-.details-btn {
-  text-decoration: none;
-  margin: auto 50px;
-  font-size: 21px;
-  width: 130px;
-  padding: 10px;
-  text-align: center;
+.select h2 {
+  display: inline-block;
   color: white;
-  background: #7c7e7e;
+  margin-left: 150px;
+}
+.select select {
+  display: inline-block;
+  width: 150px;
+  height: 30px;
 }
 
-.card p {
-  min-width: 90% !important;
-  margin: auto;
-  font-size: 21px;
-  max-height: 50px;
-  max-width: 30%;
-  text-align: center;
-}
+.brand {
+    display: inline-block;
+    margin-left: 30px;
+  }
 
-.card span {
-  padding: 10px;
-  margin: auto;
-}
+  .brand input {
+    width: 300px;
+    height: 30px;
+  }
 
-#search-container {
-    width: 95%;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24); */
+  .brand button {
+    width: 60px;
+    height: 30px;
+  }
+
+  .condition {
+    display: inline-block;
+    margin-left: 30px;
+  }
+
+  .condition select {
+    width: 300px;
+    height: 30px;
   }
   
-  #search h3 {
-    display: block;
+  .condition button {
+    width: 60px;
+    height: 30px;
+  }
+  
+  .price {
+    display: inline-block;
+    margin-left: 30px;
+  }
+
+  .price input {
+    width: 150px;
+    height: 30px;
+  }
+  
+  .price button {
+    width: 60px;
+    height: 30px;
+  }
+
+  .h2second {
+    margin-left: 550px;
+    color: white;
+  }
+  
+  .catalog {
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 1000px;
+    height: 480px;
+  }
+  
+  .catalog h2 {
+    margin: auto;
+    margin-top: 200px;
+  }
+  
+  .noresult {
     text-align: center;
-    font-weight: bold;
-    font-size: 31px;
-    margin-bottom: 0px;
+    margin-top: 50px;
+    font-size: 40px;
+    color: white;
+  } */
+  
+  .card-wrapper {
+    list-style-type: none;
+    display: inline-block;
+    margin-left: 20px;
+    flex-wrap: wrap;
   }
   
-  #search h2 {
-    margin: 50px auto;
-  }
-  
-  #search-container .card-wrapper {
-    margin-top: 0px;
-    width: 97%;
-  }
-  
-  #search-container .card-wrapper p {
-    display: block;
-  }
-  
-  .search-wrapper {
-    width: 450px;
-    padding: 15px;
+  .pagination {
     margin: auto;
-    background: rgba(0, 0, 0, 0.2);
-    height: 45px;
-    border-radius: 10px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4) inset,
-      0 1px 0 rgba(255, 255, 255, 0.2);
+    margin-left: 333px;
+    margin-bottom: 20px;
+    color: white;
   }
   
-  .search-wrapper input {
-    width: 330px;
-    height: 20px;
-    padding: 10px 5px;
-    float: left;
-    font: bold 15px "lucida sans", "trebuchet MS", "Tahoma";
-    border: 0;
-    background: #eee;
-    -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-radius: 3px 0 0 3px;
-    border-radius: 3px 0 0 3px;
-  }
-  
-  .search-wrapper input:focus {
-    outline: 0;
-    background: #fff;
-    -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) inset;
-    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) inset;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) inset;
-  }
-  
-  .search-wrapper button {
-    overflow: visible;
-    position: relative;
-    float: right;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
+  .button {
+    width: 120px;
     height: 40px;
-    width: 110px;
-    font: bold 15px/40px "lucida sans", "trebuchet MS", "Tahoma";
-    color: #fff;
-    text-transform: uppercase;
-    background: #727171;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
   }
   
-  .search-wrapper button:hover {
-    background: #585858;
-  }
+  .pagination p {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 30px;
+  } 
   
-  .search-wrapper button:active,
-  .search-wrapper button:focus {
-    background: #8f8e8e;
-  }
-  
-  .search-wrapper button:before {
-    content: "";
-    position: absolute;
-    border-width: 8px 8px 8px 0;
-    border-style: solid solid solid none;
-    border-color: transparent #706f6f transparent;
-    top: 12px;
-    left: -6px;
-  }
-  
-  .search-wrapper button:hover:before {
-    border-right-color: #696969;
-  }
-  
-  .search-wrapper button:focus:before {
-    border-right-color: #666565;
-  }
-  
-  .search-wrapper button::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-  }
+
   

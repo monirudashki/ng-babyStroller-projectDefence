@@ -14,7 +14,7 @@ export class CreateComponent implements OnInit {
    
   createFormGroup: FormGroup = this.formBuilder.group({
     babyStrollerBrand: new FormControl('' , [Validators.required , Validators.minLength(3)]),
-    imageUrl: new FormControl('' , [Validators.required]),
+    imageUrl: new FormControl('' , [Validators.required , Validators.pattern(/^https?:\/\/.+/)]),
     price: new FormControl('' , [Validators.required , Validators.min(1)]),
     year: new FormControl('' , [Validators.required]),
     condition: new FormControl('' , [Validators.required]),

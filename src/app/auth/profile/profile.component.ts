@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
     tel: new FormControl(''),
   })
 
-  constructor(private authService: AuthService , private strollersService: StrollersService, private router: Router , private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService , private router: Router , private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.currentUser$.subscribe({
@@ -40,12 +40,6 @@ export class ProfileComponent implements OnInit {
         this.currentUser = user;
       }
     });
-
-    this.strollersService.loadUserStrollers$(this.currentUser._id).subscribe({
-      next: (strollers) => {
-        this.userCatalog = strollers;
-      }
-    })
   }
 
   editHandler(): void {

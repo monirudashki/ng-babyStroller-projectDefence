@@ -8,7 +8,7 @@ import { strollerData } from './interfaces/strollerData';
 const apiUrl = environment.apiUrl;
 
 @Injectable({
-  providedIn: 'root' //check to remove that if need
+  providedIn: 'root'
 })
 export class StrollersService {
 
@@ -50,8 +50,12 @@ export class StrollersService {
     return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/search?searchBy=${searchBy}&search=${search}`);
   }
 
-  loadUserStrollers$(userId: string): Observable<IBabyStroller[]> {
-    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/userStrollers/${userId}` , {withCredentials: true});
+  loadUserStrollers$(userId: string , page: number): Observable<IBabyStroller[]> {
+    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/userStrollers/${userId}?page=${page}` , {withCredentials: true});
+  }
+
+  getUserStrollersLength$(userId: string): Observable<number> {
+    return this.httpClient.get<number>(`${environment.apiUrl}/stroller/userStrollersLength/${userId}` , { withCredentials: true });
   }
 }
 

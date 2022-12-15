@@ -1,18 +1,26 @@
-<div *ngIf="!strollersCatalog">
-    ...loading
-</div>
+<section>
+    <h2><strong>{{username}}</strong> Strollers</h2>
 
-<ng-container *ngIf="!!strollersCatalog">
-    <section id="dashboard">
-        <h2>User Ads</h2>
-        <ul>
-            <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
-                <app-catalog-item [stroller]="stroller"></app-catalog-item>
-            </div>
-        </ul>
-    
-        <div *ngIf="strollersCatalog.length === 0">
-            <h2>There are no items added yet.</h2>
+    <div class="catalog">
+        <div *ngIf="!strollersCatalog">
+            ...loading
         </div>
-    </section>
-</ng-container>
+
+        <ng-container *ngIf="!!strollersCatalog">
+            <ul>
+                <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
+                    <app-catalog-item [stroller]="stroller"></app-catalog-item>
+                </div>
+            </ul>
+            <div class="pagination" *ngIf="strollersCatalog.length > 0">
+                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
+                <p>{{page}}/{{lastPage}}</p>
+                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
+            </div>
+
+            <div *ngIf="strollersCatalog.length === 0">
+                <h2>There are no items added yet.</h2>
+            </div>
+        </ng-container>
+    </div>
+</section>

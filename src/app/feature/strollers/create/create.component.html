@@ -5,22 +5,28 @@
 
         <h2>Add item</h2>
         <form [formGroup]="createFormGroup" (ngSubmit)="createHandle()" class="create-form">
+            <label for="brand">*Brand: </label>
             <input type="text" name="brand" id="brand" placeholder="Brand" formControlName="babyStrollerBrand"/>
-
+            
             <ng-container *ngIf="createFormGroup.controls['babyStrollerBrand'].touched && createFormGroup.controls['babyStrollerBrand'].invalid">
                 <p *ngIf="createFormGroup.controls['babyStrollerBrand'].errors!['required']" class="error">
                     Babystroller brand is required!
                 </p>
             </ng-container>
-
+            
+            <label for="imageUrl">*Image: </label>
             <input type="text" name="imageUrl" id="imageUrl" placeholder="imageUrl" formControlName="imageUrl"/>
 
             <ng-container *ngIf="createFormGroup.controls['imageUrl'].touched && createFormGroup.controls['imageUrl'].invalid">
                 <p *ngIf="createFormGroup.controls['imageUrl'].errors!['required']" class="error">
                     imageUrl is required!
                 </p>
+                <p *ngIf="createFormGroup.controls['imageUrl'].errors!['pattern']" class="error">
+                    imageUrl must be a valid link!
+                </p>
             </ng-container>
-
+            
+            <label for="year">*Year: </label>
             <input type="number" name="year" id="year" placeholder="Year" formControlName="year"/>
 
             <ng-container *ngIf="createFormGroup.controls['year'].touched && createFormGroup.controls['year'].invalid">
@@ -28,7 +34,8 @@
                     Year is required!
                 </p>
             </ng-container>
-
+            
+            <label for="year">*Price: </label>
             <input type="number" name="model" id="price" placeholder="Price" formControlName="price"/>
 
             <ng-container *ngIf="createFormGroup.controls['price'].touched && createFormGroup.controls['price'].invalid">

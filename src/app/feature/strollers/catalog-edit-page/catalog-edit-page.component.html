@@ -3,7 +3,7 @@
 
         <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
 
-        <h2>Add item</h2>
+        <h2>Edit item</h2>
         <form [formGroup]="editFormGroup" (ngSubmit)="editHandle()" class="create-form">
             <div>
                 <label for="babyStrollerBrand">*Brand: </label>
@@ -24,6 +24,9 @@
             <ng-container *ngIf="editFormGroup.controls['imageUrl'].touched && editFormGroup.controls['imageUrl'].invalid">
                 <p *ngIf="editFormGroup.controls['imageUrl'].errors!['required']" class="error">
                     imageUrl is required!
+                </p>
+                <p *ngIf="editFormGroup.controls['imageUrl'].errors!['pattern']" class="error">
+                    imageUrl must be a valid link!
                 </p>
             </ng-container>
             

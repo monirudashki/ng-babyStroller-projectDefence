@@ -11,6 +11,10 @@ import { StrollersService } from 'src/app/core/strollers.service';
 export class SearchPageComponent implements OnInit {
   
   searchingBY: string = 'babyStrollerBrand';
+  page: number = 1;
+  limit: number = 3;
+  skip: number = (this.page - 1) * this.limit;
+  lastPage!: number;
 
   strollersResult!: IBabyStroller[];
 
@@ -38,38 +42,58 @@ export class SearchPageComponent implements OnInit {
   }
 
   searchByBrandHandler(): void {
+    this.page = 1;
+    this.skip = (this.page - 1) * this.limit; 
     const searchBy = 'babyStrollerBrand';
     const search = this.searchFormGroup.controls['search'].value;
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
-        this.strollersResult = result
-        console.log(this.strollersResult);
+        this.strollersResult = result;
+        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
       }
     })
   }
 
   searchByConditionHandler():void{
+    this.page = 1;
+    this.skip = (this.page - 1) * this.limit;
     const searchBy = 'condition';
     const search = this.searchByConditionFormGroup.controls['searchByCondition'].value;
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
-        this.strollersResult = result
-        console.log(this.strollersResult);
+        this.strollersResult = result;
+        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
       }
     })
   }
 
   searchByPriceHandler(): void {
+    this.page = 1;
+    this.skip = (this.page - 1) * this.limit;
     const searchBy = 'price';
     const search = `${this.searchByPriceFormGroup.controls['min'].value}-${this.searchByPriceFormGroup.controls['max'].value}`;
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
-        this.strollersResult = result
-        console.log(this.strollersResult);
+        this.strollersResult = result;
+        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
       }
     })
   }
+
+  pageMinusHandler() {
+    if(this.page > 1) {
+      this.page--;
+      this.skip = (this.page - 1) * this.limit;
+    }
+  }
+
+  pagePlusHandler() {
+    if(this.page < this.lastPage) {
+      this.page++;
+      this.skip = (this.page - 1) * this.limit;
+    }
+  } 
 }
