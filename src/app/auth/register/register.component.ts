@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { ICreateUserDto } from 'src/app/core/interfaces/createUserDto';
@@ -11,6 +12,8 @@ import { passwordMatch } from '../utils';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+
+   title: string = 'Register Page';
 
   errorMessage: string = '';
   isRegistrationActive: boolean = false;
@@ -31,9 +34,10 @@ export class RegisterComponent implements OnInit {
     tel: new FormControl('')
   });
 
-  constructor(private formBuilder: FormBuilder , private authService: AuthService , private router: Router) { }
+  constructor(private formBuilder: FormBuilder , private authService: AuthService , private router: Router , private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
   }
 
   handleRegistration(): void {

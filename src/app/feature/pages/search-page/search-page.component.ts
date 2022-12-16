@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { IBabyStroller } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
 
@@ -10,6 +11,7 @@ import { StrollersService } from 'src/app/core/strollers.service';
 })
 export class SearchPageComponent implements OnInit {
   
+  title: string = 'Search Page'
   searchingBY: string = 'babyStrollerBrand';
   page: number = 1;
   limit: number = 3;
@@ -32,9 +34,10 @@ export class SearchPageComponent implements OnInit {
     max: new FormControl(0)
   })
 
-  constructor(private formBuilder: FormBuilder , private strollersService: StrollersService) { }
+  constructor(private formBuilder: FormBuilder , private strollersService: StrollersService , private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
   }
 
   searchByHandler(value: any): void {

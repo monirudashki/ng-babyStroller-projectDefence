@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { StrollersService } from 'src/app/core/strollers.service';
 
@@ -9,6 +10,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
+  title: string = 'Add stroller Page';
 
   errorMessage: string = '';
    
@@ -20,9 +23,10 @@ export class CreateComponent implements OnInit {
     condition: new FormControl('' , [Validators.required]),
   })
 
-  constructor(private formBuilder: FormBuilder , private routes: Router , private strollerService: StrollersService , private router: Router) { }
+  constructor(private formBuilder: FormBuilder , private routes: Router , private strollerService: StrollersService , private router: Router , private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
   }
 
   createHandle(): void {

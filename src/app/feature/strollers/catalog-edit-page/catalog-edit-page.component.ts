@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { StrollersService } from 'src/app/core/strollers.service';
@@ -10,6 +11,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
   styleUrls: ['./catalog-edit-page.component.css']
 })
 export class CatalogEditPageComponent implements OnInit {
+
+  title: string = 'Edit Page';
 
   errorMessage: string = '';
    
@@ -25,9 +28,12 @@ export class CatalogEditPageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private strollersService: StrollersService,
-    private activateRoute: ActivatedRoute) { }
+    private activateRoute: ActivatedRoute,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+
     const strollerId = this.activateRoute.snapshot.params['id'];
 
     this.strollersService.loadStrollerById$(strollerId).subscribe((stroller) => {

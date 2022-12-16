@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { IRootState } from './+store';
 import { currentUserReducer } from './+store/reducers';
@@ -12,7 +12,6 @@ import { CoreModule } from './core/core.module';
 import { FooterComponent } from './core/footer/footer.component';
 import { HeaderComponent } from './core/header/header.component';
 import { PagesModule } from './feature/pages/pages.module';
-
 
 @NgModule({
   declarations: [
@@ -26,7 +25,7 @@ import { PagesModule } from './feature/pages/pages.module';
     PagesModule,
     StoreModule.forRoot<IRootState>({
       currentUser: currentUserReducer
-    })
+    }),
   ],
   providers: [
     {
@@ -36,7 +35,8 @@ import { PagesModule } from './feature/pages/pages.module';
       },
       deps: [AuthService],
       multi: true
-    }
+    },
+    [Title]
   ],
   bootstrap: [
     AppComponent,

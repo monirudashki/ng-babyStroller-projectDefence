@@ -11,8 +11,6 @@ import { CatalogEditPageComponent } from './catalog-edit-page/catalog-edit-page.
 import { CommentPageItemComponent } from './comment-page-item/comment-page-item.component';
 import { UserStrollersPageComponent } from './user-strollers-page/user-strollers-page.component';
 
-
-
 @NgModule({
   declarations: [
     CatalogComponent,
@@ -21,7 +19,7 @@ import { UserStrollersPageComponent } from './user-strollers-page/user-strollers
     CatalogDetailsPageComponent,
     CatalogEditPageComponent,
     CommentPageItemComponent,
-    UserStrollersPageComponent
+    UserStrollersPageComponent,
   ],
   imports: [
     CommonModule,

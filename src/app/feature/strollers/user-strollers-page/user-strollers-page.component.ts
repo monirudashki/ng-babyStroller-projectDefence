@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
@@ -12,6 +13,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
 })
 export class UserStrollersPageComponent implements OnInit {
 
+  title: string = 'User Strollers Page';
+
   page: number = 1;
   limit: number = 3;
   lastPage!: number;
@@ -19,9 +22,15 @@ export class UserStrollersPageComponent implements OnInit {
   userId!: string;
   username!: string;
 
-  constructor(private strollersService: StrollersService , private activateRoute: ActivatedRoute , private authService: AuthService) { }
+  constructor(
+    private strollersService: StrollersService , 
+    private activateRoute: ActivatedRoute ,
+    private authService: AuthService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+
     const userId = this.activateRoute.snapshot.params['userId'];
 
     this.userId = userId;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 
@@ -9,6 +10,8 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  
+  title: string = 'Login Page';
 
   isLoginActive: boolean = false;
   errorMessage: string = '';
@@ -18,9 +21,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required , Validators.minLength(4)])
   });
 
-  constructor(private formBuilder: FormBuilder , private authService: AuthService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder , private authService: AuthService, private router: Router , private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
   }
 
   loginHandler(): void {

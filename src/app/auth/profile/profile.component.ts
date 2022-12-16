@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
@@ -12,6 +13,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  title: string = 'Profile Page';
 
   errorMessage: string = '';
   isUpdating: boolean = false;
@@ -32,9 +35,11 @@ export class ProfileComponent implements OnInit {
     tel: new FormControl(''),
   })
 
-  constructor(private authService: AuthService , private router: Router , private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService , private router: Router , private formBuilder: FormBuilder , private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+
     this.currentUser$.subscribe({
       next: (user) => {
         this.currentUser = user;

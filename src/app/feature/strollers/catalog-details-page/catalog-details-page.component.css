@@ -1,17 +1,35 @@
+main {
+  display: inline-flex;
+  width: 100%;
+  height: 80%;
+  margin-top: 30px;
+}
+
+.left-side {
+  width: 60%;
+  height: 80%;
+}
+
+.right-side {
+  display: inline;
+  width: 40%;
+  height: 80%;
+}
+
 #details-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   background-color: white;
   margin: 50px auto;
-  min-height: 400px;
+  min-height: 500px;
   max-width: 700px;
   border: 2px ridge rgb(210, 208, 208);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
 }
 
 #img-wrapper {
-  max-width: 35%;
+  max-width: 50%;
 }
 
 #img-wrapper img {
@@ -29,7 +47,7 @@
 
 #info-wrapper {
   display: block;
-  width: 65%;
+  width: 40%;
 }
 
 #info-wrapper > p {
@@ -76,73 +94,33 @@ span {
   border-radius: 10px;
 }
 
+.scroll {
+  background-color: white;
+  width: 90%;
+  height: 350px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: 15px solid black;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;
+}
+
 .post {
-  max-width: 550px;
+  max-width: 80%;
   margin: auto;
   display: block;
 }
 
-/* comment  */
-
-.comment {
-margin-top: 1em;
-border: 1px solid;
-border-radius: 0.3em;
-width: 100%;
-padding: 1em;
-}
-
-.comment header p {
-padding: 0.3em;
-text-align: center;
-background-color: #ffffff;
-border-bottom: 1px dashed;
-margin-right: 0;
-}
-
-.comment-main {
-margin: 1em;
-display: flex;
-}
-
-.userdetails {
-display: flex;
-flex-direction: column;
-text-align: center;
-}
-
-.userdetails p {
-padding-left: 0;
-text-align: left;
-}
-
-.post-content p {
-padding-left: 1.5em;
-}
-
-.userdetails div {
-border: 1px solid;
-display: flex;
-justify-content: center;
-}
-
-.userdetails img {
-padding: 0;
-align-self: center;
-margin: 1em 0;
-width: 5em;
-height: 5em;
-border: 1px solid;
-}
-
-/* answer-comment */
 h2 {
   margin: auto;
 }
 
 .answer-comment {
-  width: 60%;
-  display: flex;
+  width: 100%;
+  height: 200px;
+  display: block;
   margin-top: 1em;
   margin-bottom: 50px; 
 }
@@ -150,14 +128,17 @@ h2 {
 .answer-comment p {
 flex-basis: 15%;
 padding-bottom: 0.3em;
+font-size: 30px;
 }
 
 .answer-comment p span {
-color: rgb(0, 128, 182);
-font-size: 1.2em;
+color: black;
+font-size: 30px;
 }
 
 .answer {
+background-color: white;
+width: 90%;
 border: 1px solid;
 border-radius: 0.3em;
 flex-basis: 85%;
@@ -166,11 +147,13 @@ text-align: center;
 
 .answer textarea {
 width: 90%;
+height: 100px;
 margin-top: 1rem;
 border-radius: 0.5rem;
 }
 
 .answer button {
+background-color: gray;
 color: white;
 margin: 0.5em 1em;
 padding: 0.2em 1em;
@@ -184,4 +167,20 @@ cursor: pointer;
 
 .comment-area {
 min-width: 100%
+} 
+
+.likeButton {
+  text-decoration: none;
+  margin: auto 50px;
+  font-size: 21px;
+  width: 130px;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  background: #818383;
+  border-radius: 10px;
+}
+
+.userStrollers {
+  font-size: 30px;
 }
