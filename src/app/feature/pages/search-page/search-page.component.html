@@ -10,7 +10,7 @@
         <form class="brand" *ngIf="searchingBY === 'babyStrollerBrand'" [formGroup]="searchFormGroup" (ngSubmit)="searchByBrandHandler()">
          
             <input id="#search-input" type="text" name="search" placeholder="Search here..." formControlName="search"/>
-            <button type="submit">Search</button>
+            <button [disabled]="isSearchActive" type="submit">Search</button>
         </form>
 
         <form class="condition" *ngIf="searchingBY === 'condition'" [formGroup]="searchByConditionFormGroup" (ngSubmit)="searchByConditionHandler()">
@@ -19,22 +19,22 @@
                 <option value="new">New</option>
                 <option value="use">Use</option>
             </select>
-            <button type="submit">Search</button>
+            <button [disabled]="isSearchActive" type="submit">Search</button>
         </form>
 
         <form class="price" *ngIf="searchingBY === 'price'" [formGroup]="searchByPriceFormGroup" (ngSubmit)="searchByPriceHandler()">
             <input type="number" id="quantity" name="quantity" step="10" formControlName="min">
             <input type="number" id="quantity" name="quantity" step="10" formControlName="max">
     
-            <button type="submit">Search</button>
+            <button [disabled]="isSearchActive" type="submit">Search</button>
         </form>   
     </div>
 </section>
 
 <div class="catalog">
-        <!-- <div *ngIf="!strollersResult">
-            ...loading
-        </div> -->
+        <div class="spinner" *ngIf="isSearchActive && !strollersResult">
+            <mat-spinner></mat-spinner>
+        </div>
     
         <ng-container *ngIf="!!strollersResult">
             <ul>

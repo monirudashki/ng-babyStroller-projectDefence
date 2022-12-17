@@ -2,8 +2,8 @@
     <h2>Strollers</h2>
 
     <div class="catalog">
-        <div *ngIf="!strollersCatalog">
-            loading.....
+        <div class="spinner" *ngIf="!strollersCatalog">
+            <mat-spinner></mat-spinner>
         </div>
 
         <ng-container *ngIf="!!strollersCatalog">

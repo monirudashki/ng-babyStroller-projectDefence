@@ -13,6 +13,8 @@ export class SearchPageComponent implements OnInit {
   
   title: string = 'Search Page'
   searchingBY: string = 'babyStrollerBrand';
+  isSearchActive: boolean = false;
+
   page: number = 1;
   limit: number = 3;
   skip: number = (this.page - 1) * this.limit;
@@ -45,6 +47,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   searchByBrandHandler(): void {
+    this.isSearchActive = true;
     this.page = 1;
     this.skip = (this.page - 1) * this.limit; 
     const searchBy = 'babyStrollerBrand';
@@ -52,13 +55,19 @@ export class SearchPageComponent implements OnInit {
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
+        this.isSearchActive = false;
         this.strollersResult = result;
         this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+      },
+      error: (err) => {
+        this.isSearchActive = false;
+        console.error(err);
       }
     })
   }
 
   searchByConditionHandler():void{
+    this.isSearchActive = true;
     this.page = 1;
     this.skip = (this.page - 1) * this.limit;
     const searchBy = 'condition';
@@ -66,13 +75,20 @@ export class SearchPageComponent implements OnInit {
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
+        this.isSearchActive = false;
         this.strollersResult = result;
         this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+      },
+      error: (err) => {
+        this.isSearchActive = false;
+        console.error(err);
       }
     })
   }
 
   searchByPriceHandler(): void {
+    this.isSearchActive = true;
+
     this.page = 1;
     this.skip = (this.page - 1) * this.limit;
     const searchBy = 'price';
@@ -80,8 +96,13 @@ export class SearchPageComponent implements OnInit {
 
     this.strollersService.getResultBySearch$(searchBy , search).subscribe({
       next: (result) => {
+        this.isSearchActive = false;
         this.strollersResult = result;
         this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+      },
+      error: (err) => {
+        this.isSearchActive = false;
+        console.error(err);
       }
     })
   }

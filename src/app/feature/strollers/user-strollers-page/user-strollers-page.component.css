@@ -51,3 +51,9 @@ h2 span {
   margin-right: 10px;
   font-size: 30px;
 }
+
+.spinner {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+}

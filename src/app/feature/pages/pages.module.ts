@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { StrollersModule } from '../strollers/strollers.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         RouterModule,
         StrollersModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatProgressSpinnerModule
     ]
 })
 export class PagesModule { }

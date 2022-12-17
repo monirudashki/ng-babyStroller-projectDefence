@@ -56,7 +56,7 @@ export class CatalogComponent implements OnInit {
     this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
-        console.log(strollersList);
+      
       } 
     );
   }

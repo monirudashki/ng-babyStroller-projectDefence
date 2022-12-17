@@ -15,7 +15,6 @@ export class AuthService {
   
   currentUser$ = this.store.select(globalState => globalState.currentUser);
   isLogged$ = this.currentUser$.pipe(
-    tap((user) => console.log(user)),
     map((user) => !!user)
   );
 
@@ -23,9 +22,7 @@ export class AuthService {
 
   register$(userData: ICreateUserDto): Observable<IUser> {
     return this.httpClient.post<IUser>(
-      `${environment.apiUrl}/register`, userData , { withCredentials: true }).pipe(
-        tap(user => console.log(user))
-      );
+      `${environment.apiUrl}/register`, userData , { withCredentials: true })
   }
 
   login$(userData: {email: string , password: string}): Observable<IUser> {

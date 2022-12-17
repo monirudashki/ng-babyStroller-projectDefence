@@ -10,6 +10,8 @@ import { CatalogDetailsPageComponent } from './catalog-details-page/catalog-deta
 import { CatalogEditPageComponent } from './catalog-edit-page/catalog-edit-page.component';
 import { CommentPageItemComponent } from './comment-page-item/comment-page-item.component';
 import { UserStrollersPageComponent } from './user-strollers-page/user-strollers-page.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { UserStrollersPageComponent } from './user-strollers-page/user-strollers
     CommonModule,
     strollersRouterModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ], 
   exports: [
     CatalogItemComponent
