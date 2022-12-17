@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { CommentService } from 'src/app/core/comment.service';
-import { IBabyStroller } from 'src/app/core/interfaces';
+import { IBabyStroller, IUser } from 'src/app/core/interfaces';
 import { IComment } from 'src/app/core/interfaces/comment';
 import { StrollersService } from 'src/app/core/strollers.service';
 
@@ -24,6 +24,7 @@ export class CatalogDetailsPageComponent implements OnInit {
   isOwner: boolean = false;
   canLike: boolean = false;
   commentsList!: IComment[];
+  user!: IUser
 
   commentFormGroup: FormGroup = this.formBuilder.group({
     postText: new FormControl("" , [Validators.required])
@@ -44,6 +45,7 @@ export class CatalogDetailsPageComponent implements OnInit {
     const strollerId = this.activateRoute.snapshot.params['id'];
     this.authService.currentUser$.subscribe(user => {
       if(user) {
+        this.user = user;
         this.userId = user._id
       }
     });
@@ -112,6 +114,7 @@ export class CatalogDetailsPageComponent implements OnInit {
     //this.errorMessage = '';
     this.commentService.createComment$(this.commentFormGroup.value , strollerId).subscribe({
       next: (comment) => {
+        comment.userId = this.user;
         this.commentsList.push(comment);
         this.commentFormGroup.reset();
       },

@@ -11,7 +11,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
   styleUrls: ['./catalog-edit-page.component.css']
 })
 export class CatalogEditPageComponent implements OnInit {
-
+  
+  isEditActive: boolean = false;
   title: string = 'Edit Page';
 
   errorMessage: string = '';
@@ -48,13 +49,18 @@ export class CatalogEditPageComponent implements OnInit {
   }
   
   editHandle(): void {
+    this.isEditActive = true;
     this.errorMessage = '';
     const strollerId = this.activateRoute.snapshot.params['id'];
 
     this.strollersService.updateStroller$(this.editFormGroup.value , strollerId).subscribe({
-      next: () => this.router.navigate([`/strollers/${strollerId}`]),
+      next: () => {
+        this.isEditActive = false;
+        this.router.navigate([`/strollers/${strollerId}`])
+      } ,
       complete: () => console.log('complete edit stroller'),
       error: (err) => {
+        this.isEditActive = false;
         this.errorMessage = err.error.message;
       }
    });

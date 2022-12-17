@@ -38,6 +38,7 @@ export class UserStrollersPageComponent implements OnInit {
     this.authService.loadUserProfileById$(userId).subscribe({
       next: (user) => {
           this.username = user.username;
+          //I can sign last page and strollersCatalog from user TODO
       }
     })
 
