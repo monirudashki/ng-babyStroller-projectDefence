@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './feature/pages/home/home.component';
 import { PageNotFoundComponent } from './feature/pages/page-not-found/page-not-found.component';
+import { SearchDetailsPageComponent } from './feature/pages/search-details-page/search-details-page.component';
 import { SearchPageComponent } from './feature/pages/search-page/search-page.component';
 
 const routes: Routes = [
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'search',
     component: SearchPageComponent
+  },
+  {
+    path: 'search/result',
+    component: SearchDetailsPageComponent
   },
   {
     path: '**',

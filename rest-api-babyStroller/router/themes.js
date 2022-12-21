@@ -13,6 +13,7 @@ router.delete('/:strollerId/delete' , auth() , themeController.deleteStroller);
 router.put('/:strollerId/like' , auth() , themeController.likeStroller);
 router.put('/:strollerId/unlike' , auth() , themeController.unlikeStroller);
 router.get('/search' , themeController.strollersBySearch);
+router.get('/searchLength' , themeController.strollersBySearchLength);
 router.get('/userStrollers/:userId' , auth() , themeController.getUserStrollers);
 router.get('/userStrollersLength/:userId' , auth() , themeController.getUserStrollersLength);
 

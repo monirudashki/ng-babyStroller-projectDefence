@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBabyStroller } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
 
@@ -12,15 +13,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
 export class SearchPageComponent implements OnInit {
   
   title: string = 'Search Page'
-  searchingBY: string = 'babyStrollerBrand';
+  searchingBY = 'babyStrollerBrand';
   isSearchActive: boolean = false;
-
-  page: number = 1;
-  limit: number = 3;
-  skip: number = (this.page - 1) * this.limit;
-  lastPage!: number;
-
-  strollersResult!: IBabyStroller[];
 
   searchFormGroup: FormGroup = this.formBuilder.group({
     searchBy: new FormControl(''),
@@ -36,7 +30,12 @@ export class SearchPageComponent implements OnInit {
     max: new FormControl(0)
   })
 
-  constructor(private formBuilder: FormBuilder , private strollersService: StrollersService , private titleService: Title) { }
+  constructor(
+    private formBuilder: FormBuilder , 
+    private strollersService: StrollersService , 
+    private titleService: Title,
+    private router: Router,
+    private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
@@ -47,77 +46,42 @@ export class SearchPageComponent implements OnInit {
   }
 
   searchByBrandHandler(): void {
-    this.isSearchActive = true;
-    this.page = 1;
-    this.skip = (this.page - 1) * this.limit; 
     const searchBy = 'babyStrollerBrand';
     const search = this.searchFormGroup.controls['search'].value;
-
-    this.strollersService.getResultBySearch$(searchBy , search).subscribe({
-      next: (result) => {
-        this.isSearchActive = false;
-        this.strollersResult = result;
-        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+    this.router.navigate(['/search/result'], {
+      queryParams: {
+        searchby: searchBy,
+        search: search,
+        page: 1
       },
-      error: (err) => {
-        this.isSearchActive = false;
-        console.error(err);
-      }
-    })
+      queryParamsHandling: 'merge',
+    });
   }
 
   searchByConditionHandler():void{
-    this.isSearchActive = true;
-    this.page = 1;
-    this.skip = (this.page - 1) * this.limit;
     const searchBy = 'condition';
     const search = this.searchByConditionFormGroup.controls['searchByCondition'].value;
-
-    this.strollersService.getResultBySearch$(searchBy , search).subscribe({
-      next: (result) => {
-        this.isSearchActive = false;
-        this.strollersResult = result;
-        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+    console.log(search);
+    this.router.navigate(['/search/result'], {
+      queryParams: {
+        searchby: searchBy,
+        search: search,
+        page: 1
       },
-      error: (err) => {
-        this.isSearchActive = false;
-        console.error(err);
-      }
-    })
+      queryParamsHandling: 'merge',
+    });
   }
 
   searchByPriceHandler(): void {
-    this.isSearchActive = true;
-
-    this.page = 1;
-    this.skip = (this.page - 1) * this.limit;
     const searchBy = 'price';
     const search = `${this.searchByPriceFormGroup.controls['min'].value}-${this.searchByPriceFormGroup.controls['max'].value}`;
-
-    this.strollersService.getResultBySearch$(searchBy , search).subscribe({
-      next: (result) => {
-        this.isSearchActive = false;
-        this.strollersResult = result;
-        this.lastPage = Math.ceil(this.strollersResult.length / this.limit);
+    this.router.navigate(['/search/result'], {
+      queryParams: {
+        searchby: searchBy,
+        search: search,
+        page: 1
       },
-      error: (err) => {
-        this.isSearchActive = false;
-        console.error(err);
-      }
-    })
-  }
-
-  pageMinusHandler() {
-    if(this.page > 1) {
-      this.page--;
-      this.skip = (this.page - 1) * this.limit;
-    }
-  }
-
-  pagePlusHandler() {
-    if(this.page < this.lastPage) {
-      this.page++;
-      this.skip = (this.page - 1) * this.limit;
-    }
+      queryParamsHandling: 'merge',
+    });
   } 
 }

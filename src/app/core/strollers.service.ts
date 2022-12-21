@@ -46,8 +46,8 @@ export class StrollersService {
     return this.httpClient.put<IBabyStroller>(`${environment.apiUrl}/stroller/${id}/unlike`, {} ,{ withCredentials: true });
   }
 
-  getResultBySearch$(searchBy: string , search: string): Observable<IBabyStroller[]> {
-    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/search?searchBy=${searchBy}&search=${search}`);
+  getResultBySearch$(searchBy: string , search: string , page: number): Observable<IBabyStroller[]> {
+    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/search?searchBy=${searchBy}&search=${search}&page=${page}`);
   }
 
   loadUserStrollers$(userId: string , page: number): Observable<IBabyStroller[]> {
@@ -56,6 +56,10 @@ export class StrollersService {
 
   getUserStrollersLength$(userId: string): Observable<number> {
     return this.httpClient.get<number>(`${environment.apiUrl}/stroller/userStrollersLength/${userId}` , { withCredentials: true });
+  }
+
+  getResultBySearchLength$(searchBy: string , search: string): Observable<number> {
+    return this.httpClient.get<number>(`${environment.apiUrl}/stroller/searchLength?searchBy=${searchBy}&search=${search}`);
   }
 }
 

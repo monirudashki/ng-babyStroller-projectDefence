@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBabyStroller } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
 
@@ -12,15 +13,18 @@ export class CatalogComponent implements OnInit {
 
   title: string = 'Catalog Page';
 
-  page: number = 1;
+  page: number = this.activateRoute.snapshot.queryParams['page'];
   limit: number = 3;
   lastPage!: number;
   strollersCatalog!: IBabyStroller[];
 
-  constructor(private strollersService: StrollersService , private titleService: Title) { }
+  constructor(
+    private strollersService: StrollersService , 
+    private titleService: Title,
+    private router: Router,
+    private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-
     this.titleService.setTitle(this.title);
 
     this.strollersService.getStrollersLength$().subscribe(
@@ -44,6 +48,13 @@ export class CatalogComponent implements OnInit {
     this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
+        this.router.navigate([], {
+          relativeTo: this.activateRoute,
+          queryParams: {
+            page: this.page
+          },
+          queryParamsHandling: 'merge',
+        });
       } 
     );
   }
@@ -51,14 +62,18 @@ export class CatalogComponent implements OnInit {
   pagePlusHandler() {
     if(this.page < this.lastPage) {
       this.page++;
-    }
-
-    this.strollersService.loadStrollers$(this.page).subscribe(
+      this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
-      
+        this.router.navigate([], {
+          relativeTo: this.activateRoute,
+          queryParams: {
+            page: this.page
+          },
+          queryParamsHandling: 'merge',
+        });
       } 
-    );
+      );
+    }
   }
-
 }

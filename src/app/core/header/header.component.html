@@ -6,7 +6,7 @@
 
     <nav>
       <div>
-        <a routerLink="/strollers">Catalog</a>
+        <a [routerLink]="['/strollers']" [queryParams]="{page:'1'}">Catalog</a>
         <a routerLink="/search">Search</a>
       </div>
 

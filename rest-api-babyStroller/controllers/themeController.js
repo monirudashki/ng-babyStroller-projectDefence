@@ -161,6 +161,32 @@ async function unlikeStroller(req , res , next) {
 async function strollersBySearch(req , res , next) {
     const searchBy = req.query.searchBy;
     const search = req.query.search;
+    const page = req.query.page;
+    const limit = 3;
+    
+    const skip = (page - 1) * limit;
+    
+    let searchResult = [];
+    if(searchBy == 'babyStrollerBrand' || searchBy == 'condition') {
+      searchResult = await babyStroller.find({ [searchBy]: {$regex: search, $options: 'i'} }).limit(limit).skip(skip).populate('userId');;
+    } else if (searchBy == 'price') {
+      const array = req.query.search.split('-');
+      const min = array[0];
+      const max = array[1];
+      const strollers = await babyStroller.find().limit(limit).skip(skip).populate('userId');
+      searchResult = strollers.filter((stroller) => stroller.price > min && stroller.price < max);
+    }
+
+    try {
+      return res.json(searchResult);
+    } catch (err) {
+      next();
+    }
+}
+
+async function strollersBySearchLength(req , res , next) {
+    const searchBy = req.query.searchBy;
+    const search = req.query.search;
     
     let searchResult = [];
     if(searchBy == 'babyStrollerBrand' || searchBy == 'condition') {
@@ -174,7 +200,7 @@ async function strollersBySearch(req , res , next) {
     }
 
     try {
-      return res.json(searchResult);
+      return res.json(searchResult.length);
     } catch (err) {
       next();
     }
@@ -208,5 +234,6 @@ module.exports = {
     strollersBySearch,
     getUserStrollers,
     getStrollersLength,
-    getUserStrollersLength
+    getUserStrollersLength,
+    strollersBySearchLength
 }

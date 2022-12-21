@@ -7,12 +7,14 @@ import { SearchPageComponent } from './search-page/search-page.component';
 import { StrollersModule } from '../strollers/strollers.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SearchDetailsPageComponent } from './search-details-page/search-details-page.component';
 
 @NgModule({
     declarations: [
         HomeComponent,
         PageNotFoundComponent,
-        SearchPageComponent
+        SearchPageComponent,
+        SearchDetailsPageComponent
     ],
     imports: [
         CommonModule,

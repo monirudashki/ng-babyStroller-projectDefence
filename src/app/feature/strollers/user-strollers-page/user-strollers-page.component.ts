@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IBabyStroller } from 'src/app/core/interfaces';
@@ -26,12 +26,16 @@ export class UserStrollersPageComponent implements OnInit {
     private strollersService: StrollersService , 
     private activateRoute: ActivatedRoute ,
     private authService: AuthService,
-    private titleService: Title) { }
+    private titleService: Title,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
 
     const userId = this.activateRoute.snapshot.params['userId'];
+    if(this.activateRoute.snapshot.queryParams['page']) {
+      this.page = this.activateRoute.snapshot.queryParams['page'];
+    }
 
     this.userId = userId;
 
@@ -51,6 +55,13 @@ export class UserStrollersPageComponent implements OnInit {
     this.strollersService.loadUserStrollers$(userId , this.page).subscribe({
       next: (strollers) => {
         this.strollersCatalog = strollers;
+        this.router.navigate([], {
+          relativeTo: this.activateRoute,
+          queryParams: {
+            page: this.page
+          },
+          queryParamsHandling: 'merge',
+        });
       }
     })
   }
@@ -63,6 +74,13 @@ export class UserStrollersPageComponent implements OnInit {
     this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
+        this.router.navigate([], {
+          relativeTo: this.activateRoute,
+          queryParams: {
+            page: this.page
+          },
+          queryParamsHandling: 'merge',
+        });
       } 
     );
   }
@@ -75,6 +93,13 @@ export class UserStrollersPageComponent implements OnInit {
     this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
+        this.router.navigate([], {
+          relativeTo: this.activateRoute,
+          queryParams: {
+            page: this.page
+          },
+          queryParamsHandling: 'merge',
+        });
       } 
     );
   }
