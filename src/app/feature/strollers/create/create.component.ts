@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -6,19 +6,22 @@ import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent implements OnInit , OnDestroy {
 
   isCreateActive: boolean = false;
   currentUser$: Observable<IUser> = this.authService.currentUser$;
   currentUser: IUser = undefined as unknown as IUser;
 
   title: string = 'Add stroller Page';
+
+  subs = new SubscriptionsContainer();
 
   errorMessage: string = '';
    
@@ -41,7 +44,7 @@ export class CreateComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
 
-    this.currentUser$.subscribe({
+    this.subs.add = this.currentUser$.subscribe({
       next: (user) => {
         this.currentUser = user;
       }
@@ -51,7 +54,7 @@ export class CreateComponent implements OnInit {
   createHandle(): void {
     this.isCreateActive = true;
     this.errorMessage = '';
-    this.strollerService.createStroller$(this.createFormGroup.value).subscribe({
+    this.subs.add = this.strollerService.createStroller$(this.createFormGroup.value).subscribe({
        next: () => {
         this.isCreateActive = false;
         this.router.navigate([`strollers/userStrollers/${this.currentUser._id}`]);
@@ -66,5 +69,9 @@ export class CreateComponent implements OnInit {
   
   cancelHandle(): void {
     this.routes.navigate(['/home']);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

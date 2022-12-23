@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBabyStroller } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css']
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit, OnDestroy {
 
   title: string = 'Catalog Page';
+
+  subs = new SubscriptionsContainer();
 
   page: number = this.activateRoute.snapshot.queryParams['page'];
   limit: number = 3;
@@ -19,7 +22,7 @@ export class CatalogComponent implements OnInit {
   strollersCatalog!: IBabyStroller[];
 
   constructor(
-    private strollersService: StrollersService , 
+    private strollersService: StrollersService,
     private titleService: Title,
     private router: Router,
     private activateRoute: ActivatedRoute) { }
@@ -27,25 +30,25 @@ export class CatalogComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
 
-    this.strollersService.getStrollersLength$().subscribe(
+    this.subs.add = this.strollersService.getStrollersLength$().subscribe(
       (strollersLength) => {
-         this.lastPage = Math.ceil(strollersLength / this.limit);
+        this.lastPage = Math.ceil(strollersLength / this.limit);
       }
     )
 
-    this.strollersService.loadStrollers$(this.page).subscribe(
+    this.subs.add = this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
-      } 
+      }
     )
   }
 
   pageMinusHandler() {
-    if(this.page > 1) {
+    if (this.page > 1) {
       this.page--;
     }
 
-    this.strollersService.loadStrollers$(this.page).subscribe(
+    this.subs.add = this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -55,14 +58,15 @@ export class CatalogComponent implements OnInit {
           },
           queryParamsHandling: 'merge',
         });
-      } 
+      }
     );
   }
 
   pagePlusHandler() {
-    if(this.page < this.lastPage) {
+    if (this.page < this.lastPage) {
       this.page++;
-      this.strollersService.loadStrollers$(this.page).subscribe(
+    }
+    this.subs.add = this.strollersService.loadStrollers$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -72,8 +76,11 @@ export class CatalogComponent implements OnInit {
           },
           queryParamsHandling: 'merge',
         });
-      } 
-      );
-    }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

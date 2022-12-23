@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, ɵpublishDefaultGlobalUtils } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ɵpublishDefaultGlobalUtils } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,15 +8,18 @@ import { CommentService } from 'src/app/core/comment.service';
 import { IBabyStroller, IUser } from 'src/app/core/interfaces';
 import { IComment } from 'src/app/core/interfaces/comment';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-catalog-details-page',
   templateUrl: './catalog-details-page.component.html',
   styleUrls: ['./catalog-details-page.component.css']
 })
-export class CatalogDetailsPageComponent implements OnInit {
+export class CatalogDetailsPageComponent implements OnInit , OnDestroy {
 
   title: string = 'Details Page';
+
+  subs = new SubscriptionsContainer();
 
   stroller!: IBabyStroller;
   isLogged$: Observable<boolean> = this.authService.isLogged$;
@@ -43,14 +46,14 @@ export class CatalogDetailsPageComponent implements OnInit {
     this.titleService.setTitle(this.title);
 
     const strollerId = this.activateRoute.snapshot.params['id'];
-    this.authService.currentUser$.subscribe(user => {
+    this.subs.add = this.authService.currentUser$.subscribe(user => {
       if(user) {
         this.user = user;
         this.userId = user._id
       }
     });
     
-    this.strollersService.loadStrollerById$(strollerId).subscribe(stroller => {
+    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe(stroller => {
       const ownerId = stroller.userId.toString();
 
       if(!stroller.likes.includes(this.userId)) {
@@ -68,7 +71,7 @@ export class CatalogDetailsPageComponent implements OnInit {
   deleteStrollerHandle(): void {
     const strollerId = this.activateRoute.snapshot.params['id'];
 
-    this.strollersService.deleteStroller$(strollerId).subscribe({
+    this.subs.add = this.strollersService.deleteStroller$(strollerId).subscribe({
       next: () => this.router.navigate([`/strollers/userStrollers/${this.userId}`]),
       complete: () => console.log('complete delete stroller'),
       error: (err) => {
@@ -80,7 +83,7 @@ export class CatalogDetailsPageComponent implements OnInit {
   likeHandler(): void {
     const strollerId = this.activateRoute.snapshot.params['id'];
 
-    this.strollersService.likeStroller$(strollerId).subscribe({
+    this.subs.add = this.strollersService.likeStroller$(strollerId).subscribe({
       next: (stroller) => {
         this.stroller = stroller;
         this.canLike = false;
@@ -96,7 +99,7 @@ export class CatalogDetailsPageComponent implements OnInit {
   unLikeHandler(): void {
     const strollerId = this.activateRoute.snapshot.params['id'];
 
-    this.strollersService.unlikeStroller$(strollerId).subscribe({
+    this.subs.add = this.strollersService.unlikeStroller$(strollerId).subscribe({
       next: (stroller) => {
         this.stroller = stroller;
         this.canLike = true;
@@ -112,7 +115,7 @@ export class CatalogDetailsPageComponent implements OnInit {
   postHandler(): void {
     const strollerId = this.activateRoute.snapshot.params['id'];
     //this.errorMessage = '';
-    this.commentService.createComment$(this.commentFormGroup.value , strollerId).subscribe({
+    this.subs.add = this.commentService.createComment$(this.commentFormGroup.value , strollerId).subscribe({
       next: (comment) => {
         comment.userId = this.user;
         this.commentsList.push(comment);
@@ -125,5 +128,9 @@ export class CatalogDetailsPageComponent implements OnInit {
         console.error(error);
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

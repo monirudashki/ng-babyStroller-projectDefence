@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { ICreateUserDto } from 'src/app/core/interfaces/createUserDto';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 import { passwordMatch } from '../utils';
 
 @Component({
@@ -11,9 +12,11 @@ import { passwordMatch } from '../utils';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit , OnDestroy{
 
-   title: string = 'Register Page';
+  title: string = 'Register Page';
+
+  subs = new SubscriptionsContainer();
 
   errorMessage: string = '';
   isRegistrationActive: boolean = false;
@@ -55,7 +58,7 @@ export class RegisterComponent implements OnInit {
       body.tel = tel;
     }
 
-    this.authService.register$(body).subscribe({
+    this.subs.add = this.authService.register$(body).subscribe({
       next: () => {
         this.isRegistrationActive = false;
         this.errorMessage = '';
@@ -68,5 +71,8 @@ export class RegisterComponent implements OnInit {
       } 
     });
   }
-
+  
+  ngOnDestroy(): void {
+    this.subs.dispose();
+  }
 }

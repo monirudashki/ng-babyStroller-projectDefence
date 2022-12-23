@@ -8,6 +8,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { StrollersService } from './strollers.service';
 import { CommentService } from './comment.service';
 import { AdminService } from './admin.service';
+import { SubscriptionsContainer } from './subscription.container';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ export class CoreModule {
       StrollersService,
       CommentService,
       AdminService,
+      SubscriptionsContainer,
        {
          provide: HTTP_INTERCEPTORS,
          multi: true,

@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IBabyStroller, IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-user-strollers-page',
   templateUrl: './user-strollers-page.component.html',
   styleUrls: ['./user-strollers-page.component.css']
 })
-export class UserStrollersPageComponent implements OnInit {
+export class UserStrollersPageComponent implements OnInit , OnDestroy {
 
   title: string = 'User Strollers Page';
+
+  subs = new SubscriptionsContainer();
 
   currentUser$: Observable<IUser> = this.authService.currentUser$;
   currentUser: IUser = undefined as unknown as IUser;
@@ -48,7 +51,7 @@ export class UserStrollersPageComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
    
-    this.currentUser$.subscribe({
+    this.subs.add = this.currentUser$.subscribe({
       next: (user) => {
         this.currentUser = user;
       }
@@ -65,13 +68,13 @@ export class UserStrollersPageComponent implements OnInit {
       this.isOwner = true;
     }
 
-    this.authService.loadUserProfileById$(userId).subscribe({
+    this.subs.add = this.authService.loadUserProfileById$(userId).subscribe({
       next: (user) => {
           this.username = user.username;
       }
     })
 
-    this.strollersService.getUserStrollersLength$(userId).subscribe(
+    this.subs.add = this.strollersService.getUserStrollersLength$(userId).subscribe(
       (strollersLength) => {
          this.lastPage = Math.ceil(strollersLength / this.limit);
          this.activeCount = strollersLength;
@@ -81,7 +84,7 @@ export class UserStrollersPageComponent implements OnInit {
       }
     )
 
-    this.strollersService.loadUserStrollers$(userId , this.page).subscribe({
+    this.subs.add = this.strollersService.loadUserStrollers$(userId , this.page).subscribe({
       next: (strollers) => {
         this.strollersCatalog = strollers;
         this.router.navigate([], {
@@ -93,20 +96,22 @@ export class UserStrollersPageComponent implements OnInit {
         });
       }
     });
-
-    this.strollersService.loadUserStrollersHolding$(userId).subscribe({
-      next: (strollers) => {
-        this.holdingCount = strollers.length;
-        this.strollersHolding = strollers;
-      }
-    });
-
-    this.strollersService.loadUserStrollersModerated$(userId).subscribe({
-      next: (strollers) => {
-        this.moderatedCount = strollers.length;
-        this.strollersModerated = strollers;
-      }
-    });
+    
+    if(this.isOwner) {
+      this.subs.add = this.strollersService.loadUserStrollersHolding$(userId).subscribe({
+        next: (strollers) => {
+          this.holdingCount = strollers.length;
+          this.strollersHolding = strollers;
+        }
+      });
+  
+      this.subs.add = this.strollersService.loadUserStrollersModerated$(userId).subscribe({
+        next: (strollers) => {
+          this.moderatedCount = strollers.length;
+          this.strollersModerated = strollers;
+        }
+      });
+    }
   }
 
   pageMinusHandler() {
@@ -114,7 +119,7 @@ export class UserStrollersPageComponent implements OnInit {
       this.page--;
     }
 
-    this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
+    this.subs.add = this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -133,7 +138,7 @@ export class UserStrollersPageComponent implements OnInit {
       this.page++;
     }
 
-    this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
+    this.subs.add = this.strollersService.loadUserStrollers$(this.userId , this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -174,5 +179,13 @@ export class UserStrollersPageComponent implements OnInit {
     this.isActive = false;
     this.isHolding = false;
     this.isModerated = true;
+    this.router.navigate([], {
+      relativeTo: this.activateRoute,
+      queryParams: {},
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

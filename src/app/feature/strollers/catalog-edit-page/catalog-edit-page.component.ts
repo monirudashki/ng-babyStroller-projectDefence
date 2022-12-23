@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,15 +6,18 @@ import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-catalog-edit-page',
   templateUrl: './catalog-edit-page.component.html',
   styleUrls: ['./catalog-edit-page.component.css']
 })
-export class CatalogEditPageComponent implements OnInit {
+export class CatalogEditPageComponent implements OnInit , OnDestroy {
   
   title: string = 'Edit Page';
+
+  subs = new SubscriptionsContainer();
 
   currentUser$: Observable<IUser> = this.authService.currentUser$;
   currentUser: IUser = undefined as unknown as IUser;
@@ -43,13 +46,13 @@ export class CatalogEditPageComponent implements OnInit {
 
     const strollerId = this.activateRoute.snapshot.params['id'];
 
-    this.currentUser$.subscribe({
+    this.subs.add = this.currentUser$.subscribe({
       next: (user) => {
         this.currentUser = user;
       }
     });
 
-    this.strollersService.loadStrollerById$(strollerId).subscribe((stroller) => {
+    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe((stroller) => {
        this.editFormGroup.patchValue({
         babyStrollerBrand: stroller.babyStrollerBrand,
         imageUrl: stroller.imageUrl,
@@ -65,7 +68,7 @@ export class CatalogEditPageComponent implements OnInit {
     this.errorMessage = '';
     const strollerId = this.activateRoute.snapshot.params['id'];
 
-    this.strollersService.updateStroller$(this.editFormGroup.value , strollerId).subscribe({
+    this.subs.add = this.strollersService.updateStroller$(this.editFormGroup.value , strollerId).subscribe({
       next: () => {
         this.isEditActive = false;
         this.router.navigate([`strollers/userStrollers/${this.currentUser._id}`]);
@@ -81,5 +84,8 @@ export class CatalogEditPageComponent implements OnInit {
   cancelHandle(): void {
     this.router.navigate(['/home']);
   }
-
+  
+  ngOnDestroy(): void {
+    this.subs.dispose();
+  }
 }

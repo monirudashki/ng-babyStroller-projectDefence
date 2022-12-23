@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
@@ -8,15 +8,18 @@ import { StrollersService } from 'src/app/core/strollers.service';
 import { Store } from '@ngrx/store';
 import { IRootState } from 'src/app/+store';
 import { AdminService } from 'src/app/core/admin.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-admin-catalog-page',
   templateUrl: './admin-catalog-page.component.html',
   styleUrls: ['./admin-catalog-page.component.css']
 })
-export class AdminCatalogPageComponent implements OnInit {
+export class AdminCatalogPageComponent implements OnInit , OnDestroy{
 
   title: string = "Admin Page";
+
+  subs = new SubscriptionsContainer();
 
   page: number = this.activateRoute.snapshot.queryParams['page'];
   limit: number = 3;
@@ -38,7 +41,7 @@ export class AdminCatalogPageComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
 
-    this.currentUser$.subscribe({
+    this.subs.add = this.currentUser$.subscribe({
       next: (user) => {
         if(user) {
           this.currentUser = user;
@@ -48,7 +51,7 @@ export class AdminCatalogPageComponent implements OnInit {
       }
     });
 
-    this.adminService.loadStrollersForAdmin$(this.page).subscribe({
+    this.subs.add = this.adminService.loadStrollersForAdmin$(this.page).subscribe({
       next: (strollers) => {
         this.strollersCatalog = strollers;
       }
@@ -56,7 +59,7 @@ export class AdminCatalogPageComponent implements OnInit {
   }
   
   moderateStrollerHandle(strollerId: string): void {
-    this.adminService.adminModerateStroller$(strollerId).subscribe({
+    this.subs.add = this.adminService.adminModerateStroller$(strollerId).subscribe({
       next: (stroller) => {
         const index = this.strollersCatalog.indexOf(stroller);
         this.strollersCatalog.splice(index , 1);
@@ -69,7 +72,7 @@ export class AdminCatalogPageComponent implements OnInit {
   }
 
   approveStrollerHandle(strollerId: string): void {
-    this.adminService.adminApproveStroller$(strollerId).subscribe({
+    this.subs.add = this.adminService.adminApproveStroller$(strollerId).subscribe({
       next: (stroller) => {
         const index = this.strollersCatalog.indexOf(stroller);
         this.strollersCatalog.splice(index , 1);
@@ -86,7 +89,7 @@ export class AdminCatalogPageComponent implements OnInit {
       this.page--;
     }
 
-    this.adminService.loadStrollersForAdmin$(this.page).subscribe(
+    this.subs.add = this.adminService.loadStrollersForAdmin$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -104,7 +107,7 @@ export class AdminCatalogPageComponent implements OnInit {
     if(this.page < this.lastPage) {
       this.page++;
     }
-    this.adminService.loadStrollersForAdmin$(this.page).subscribe(
+    this.subs.add = this.adminService.loadStrollersForAdmin$(this.page).subscribe(
       (strollersList) => {
         this.strollersCatalog = strollersList;
         this.router.navigate([], {
@@ -116,5 +119,9 @@ export class AdminCatalogPageComponent implements OnInit {
         });
       } 
       );
+    }
+
+    ngOnDestroy(): void {
+      this.subs.dispose();
     }
 }

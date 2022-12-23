@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IBabyStroller } from 'src/app/core/interfaces/babyStroller';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-search-details-page',
   templateUrl: './search-details-page.component.html',
   styleUrls: ['./search-details-page.component.css']
 })
-export class SearchDetailsPageComponent implements OnInit {
+export class SearchDetailsPageComponent implements OnInit , OnDestroy {
 
   title: string = 'Search Result';
+
+  subs = new SubscriptionsContainer();
 
   page: number = this.activateRoute.snapshot.queryParams['page'];
   searchBy: string = this.activateRoute.snapshot.queryParams['searchby'];
@@ -31,13 +34,13 @@ export class SearchDetailsPageComponent implements OnInit {
   ngOnInit(): void {
       this.titleService.setTitle(this.title);
 
-      this.strollersService.getResultBySearchLength$(this.searchBy , this.search).subscribe({
+      this.subs.add = this.strollersService.getResultBySearchLength$(this.searchBy , this.search).subscribe({
         next: (length) => {
           this.lastPage = Math.ceil(length / this.limit);
         }
       })
 
-      this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
+      this.subs.add = this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
       next: (result) => {
         this.strollersResult = result;
       },
@@ -52,7 +55,7 @@ export class SearchDetailsPageComponent implements OnInit {
       this.page--;
     }
     
-    this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
+    this.subs.add = this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
       next: (result) => {
         this.strollersResult = result;
         this.router.navigate([], {
@@ -76,7 +79,7 @@ export class SearchDetailsPageComponent implements OnInit {
       this.page++;
     }
 
-    this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
+    this.subs.add = this.strollersService.getResultBySearch$(this.searchBy , this.search , this.page).subscribe({
       next: (result) => {
         this.strollersResult = result;
         this.router.navigate([], {
@@ -93,5 +96,9 @@ export class SearchDetailsPageComponent implements OnInit {
         console.error(err);
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

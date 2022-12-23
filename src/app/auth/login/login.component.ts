@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit , OnDestroy {
   
   title: string = 'Login Page';
+
+  subs = new SubscriptionsContainer();
 
   isLoginActive: boolean = false;
   errorMessage: string = '';
@@ -30,7 +33,7 @@ export class LoginComponent implements OnInit {
   loginHandler(): void {
     this.isLoginActive = true;
     this.errorMessage = '';
-    this.authService.login$(this.loginFormGroup.value).subscribe({
+    this.subs.add = this.authService.login$(this.loginFormGroup.value).subscribe({
         next: () => {
           this.isLoginActive = false;
           this.router.navigate(['/home'])
@@ -41,5 +44,9 @@ export class LoginComponent implements OnInit {
           this.errorMessage = error.error.message
         } 
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }

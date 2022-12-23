@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -6,15 +6,18 @@ import { Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IBabyStroller, IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
+import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit , OnDestroy {
 
   title: string = 'Profile Page';
+
+  subs = new SubscriptionsContainer();
 
   errorMessage: string = '';
   isUpdating: boolean = false;
@@ -40,7 +43,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
 
-    this.currentUser$.subscribe({
+    this.subs.add = this.currentUser$.subscribe({
       next: (user) => {
         this.currentUser = user;
       }
@@ -60,7 +63,7 @@ export class ProfileComponent implements OnInit {
   updateProfile(): void {
     this.isUpdating = true;
     this.errorMessage = '';
-    this.authService.editProfileInfo$(this.profileEditFormGroup.value).subscribe({
+    this.subs.add = this.authService.editProfileInfo$(this.profileEditFormGroup.value).subscribe({
       next: (user) => { 
         this.isUpdating = false;
         this.authService.handleLogin(user);
@@ -77,6 +80,10 @@ export class ProfileComponent implements OnInit {
 
   cancelHandler(): void {
     this.isEditMode = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.dispose();
   }
 }
 
