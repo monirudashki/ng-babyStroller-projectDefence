@@ -45,6 +45,17 @@ h2 span {
   height: 40px;
 }
 
+.actionButtons {
+  margin-left: 19px;
+}
+
+.buttons {
+  font-size: 20px;
+  font-weight:bold;
+  width: 314px;
+  height: 35px;
+}
+
 .pagination p {
   display: inline-block;
   margin-left: 10px;

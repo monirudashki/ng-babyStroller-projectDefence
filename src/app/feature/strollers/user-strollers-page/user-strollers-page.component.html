@@ -1,11 +1,77 @@
-<section>
+<section *ngIf="isOwner">
     <h2><span class="username">{{username}}</span> Strollers</h2>
 
     <div class="catalog">
         <div class="spinner" *ngIf="!strollersCatalog">
             <mat-spinner></mat-spinner>
         </div>
+        
+        <div class="actionButtons">
+            <button class="buttons" [ngStyle]="{'backgroundColor': isActive === true ? 'rgba(70, 20, 158)' : 'white' }" type="button" (click)="activeOn()">Active({{activeCount}})</button>
+            <button class="buttons" [ngStyle]="{'backgroundColor': isHolding === true ? 'rgba(70, 20, 158)' : 'white' }" type="button" (click)="holdingOn()">Holding({{holdingCount}})</button>
+            <button class="buttons" [ngStyle]="{'backgroundColor': isModerated === true ? 'rgba(70, 20, 158)' : 'white' }" type="button" (click)="moderatedOn()">Moderated({{moderatedCount}})</button>
+        </div>
+        <ng-container *ngIf="isActive && !!strollersCatalog">
+            <ul>
+                <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
+                    <app-catalog-item [stroller]="stroller"></app-catalog-item>
+                </div>
+            </ul>
+            <div class="pagination" *ngIf="strollersCatalog.length > 0">
+                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
+                <p>{{page}}/{{lastPage}}</p>
+                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
+            </div>
 
+            <div *ngIf="strollersCatalog.length === 0">
+                <h2>There are no items added yet.</h2>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="isHolding && !!strollersHolding">
+            <ul>
+                <div *ngFor="let stroller of strollersHolding" class="card-wrapper">
+                    <app-catalog-item [stroller]="stroller"></app-catalog-item>
+                </div>
+            </ul>
+            <!-- <div class="pagination" *ngIf="strollersCatalog.length > 0">
+                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
+                <p>{{page}}/{{lastPage}}</p>
+                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
+            </div> -->
+
+            <div *ngIf="strollersHolding.length === 0">
+                <h2>There are no holding items!</h2>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="isModerated && !!strollersModerated">
+            <ul>
+                <div *ngFor="let stroller of strollersModerated" class="card-wrapper">
+                    <app-catalog-item [stroller]="stroller"></app-catalog-item>
+                </div>
+            </ul>
+            <!-- <div class="pagination" *ngIf="strollersCatalog.length > 0">
+                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
+                <p>{{page}}/{{lastPage}}</p>
+                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
+            </div> -->
+
+            <div *ngIf="strollersModerated.length === 0">
+                <h2>There are no moderated items!</h2>
+            </div>
+        </ng-container>
+    </div>
+</section>
+
+<section *ngIf="!isOwner">
+    <h2><span class="username">{{username}}</span> Strollers</h2>
+
+    <div class="catalog">
+        <div class="spinner" *ngIf="!strollersCatalog">
+            <mat-spinner></mat-spinner>
+        </div>
+        
         <ng-container *ngIf="!!strollersCatalog">
             <ul>
                 <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">

@@ -8,7 +8,7 @@ async function getThemes(req, res, next) {
     
     const skip = (page - 1) * limit;
     
-    const result = await babyStroller.find().limit(limit).skip(skip).populate('userId');
+    const result = await babyStroller.find({status: 'active'}).limit(limit).skip(skip).populate('userId');
     
     try {
         res.json(result);
@@ -17,8 +17,23 @@ async function getThemes(req, res, next) {
     }
 }
 
+async function getStrollersForAdmin(req , res, next) {
+    const page = req.query.page;
+    const limit = 3;
+    
+    const skip = (page - 1) * limit;
+
+    const strollers = await babyStroller.find({status: 'holding'}).limit(limit).skip(skip).populate('userId');
+
+    try {
+        res.json(strollers);
+    } catch(err) {
+        next();
+    }
+}
+
 async function getStrollersLength(req , res , next) {
-    const result = await babyStroller.find();
+    const result = await babyStroller.find({status: 'active'});
     const strollersLength = result.length;
 
     try {
@@ -30,7 +45,7 @@ async function getStrollersLength(req , res , next) {
 
 async function getUserStrollersLength(req , res , next) {
     const userId = req.params.userId;
-    const result = await babyStroller.find({ userId: userId});
+    const result = await babyStroller.find({ userId: userId , status: 'active'});
     const strollersLength = result.length;
 
     try {
@@ -39,6 +54,7 @@ async function getUserStrollersLength(req , res , next) {
         next();
     }
 }
+
 
 function getTheme(req, res, next) {
     const { themeId } = req.params;
@@ -59,12 +75,17 @@ async function createTheme(req, res, next) {
     const { babyStrollerBrand, imageUrl , year , price , condition } = req.body;
     const { _id: userId } = req.user;
     const user = await userModel.findById(userId);
-   
+    const admin = await userModel.find({roles: 'admin'});
+
     try{
         const stroller = await babyStroller.create({
             babyStrollerBrand , imageUrl , year , price , condition , likes: [] , comments: [], userId
         });
-
+        
+        if(admin) {
+            admin[0].babyStrollers.push(stroller);
+            await admin[0].save();
+        }
         user.babyStrollers.push(stroller);
 
         await user.save();
@@ -75,27 +96,35 @@ async function createTheme(req, res, next) {
     }
 }
 
-function editStroller(req , res , next) {
+async function editStroller(req , res , next) {
     const { strollerId } = req.params;
     const { babyStrollerBrand, imageUrl , year , price , condition } = req.body;
     const { _id: userId } = req.user;
 
-    babyStroller.findByIdAndUpdate({ _id: strollerId, userId }, { 
+    const admin = await userModel.find({roles: 'admin'});
+
+    const stroller = await babyStroller.findByIdAndUpdate({ _id: strollerId, userId }, { 
         babyStrollerBrand: babyStrollerBrand,
         imageUrl: imageUrl,
         year: year,
         price: price,
-        condition: condition
-     }, { new: true })
-     .then(updatedStroller => {
-        if (updatedStroller) {
-            res.status(200).json(updatedStroller);
-        }
-        else {
-            res.status(401).json({ message: `Not allowed!` });
-        }
-    })
-    .catch(next);
+        condition: condition,
+        status: 'holding'
+     }, { new: true });
+    
+    if(admin) {
+        admin[0].babyStrollers.push(stroller);
+        await admin[0].save();
+    }
+    
+    if (stroller) {
+        res.status(200).json(stroller);
+    }
+    else {
+        res.status(401).json({ message: `Not allowed!` });
+    }
+    
+    
 }
 
 function subscribe(req, res, next) {
@@ -118,6 +147,13 @@ async function deleteStroller(req,res, next) {
     user.babyStrollers.splice(index , 1);
 
     await user.save();
+
+    const admin = await userModel.find({roles: 'admin'});
+    if(admin) {
+      const index = admin[0].babyStrollers.indexOf(strollerId);
+      admin[0].babyStrollers.splice(index , 1);
+      admin[0].save();
+    }
 
     babyStroller.findOneAndDelete({ _id: strollerId, userId })
     .then(deleteOne => {
@@ -168,12 +204,12 @@ async function strollersBySearch(req , res , next) {
     
     let searchResult = [];
     if(searchBy == 'babyStrollerBrand' || searchBy == 'condition') {
-      searchResult = await babyStroller.find({ [searchBy]: {$regex: search, $options: 'i'} }).limit(limit).skip(skip).populate('userId');;
+      searchResult = await babyStroller.find({ [searchBy]: {$regex: search, $options: 'i'} , status: 'active'}).limit(limit).skip(skip).populate('userId');;
     } else if (searchBy == 'price') {
       const array = req.query.search.split('-');
       const min = array[0];
       const max = array[1];
-      const strollers = await babyStroller.find().limit(limit).skip(skip).populate('userId');
+      const strollers = await babyStroller.find({status: 'active'}).limit(limit).skip(skip).populate('userId');
       searchResult = strollers.filter((stroller) => stroller.price > min && stroller.price < max);
     }
 
@@ -190,12 +226,12 @@ async function strollersBySearchLength(req , res , next) {
     
     let searchResult = [];
     if(searchBy == 'babyStrollerBrand' || searchBy == 'condition') {
-      searchResult = await babyStroller.find({ [searchBy]: {$regex: search, $options: 'i'} }).populate('userId');;
+      searchResult = await babyStroller.find({ [searchBy]: {$regex: search, $options: 'i'} , status: 'active' }).populate('userId');;
     } else if (searchBy == 'price') {
       const array = req.query.search.split('-');
       const min = array[0];
       const max = array[1];
-      const strollers = await babyStroller.find().populate('userId');
+      const strollers = await babyStroller.find({status: 'active'}).populate('userId');
       searchResult = strollers.filter((stroller) => stroller.price > min && stroller.price < max);
     }
 
@@ -213,12 +249,89 @@ async function getUserStrollers(req , res , next) {
     const skip = (page - 1) * limit;
     const userId = req.params.userId;
 
-    const result =  await babyStroller.find({ userId: userId}).limit(limit).skip(skip).populate('userId');
+    const result =  await babyStroller.find({ userId: userId , status: 'active'}).limit(limit).skip(skip).populate('userId');
 
     try {
         res.json(result);
     }catch (err) {
         next();
+    }
+}
+
+async function getUserStrollersHolding(req , res , next) {
+    const page = req.query.page;
+    const limit = 3;
+    
+    const skip = (page - 1) * limit;
+    const userId = req.params.userId;
+
+    const result =  await babyStroller.find({ userId: userId , status: 'holding'}).limit(limit).skip(skip).populate('userId');
+
+    try {
+        res.json(result);
+    }catch (err) {
+        next();
+    }
+}
+
+async function getUserStrollersModerated(req , res , next) {
+    const page = req.query.page;
+    const limit = 3;
+    
+    const skip = (page - 1) * limit;
+    const userId = req.params.userId;
+
+    const result =  await babyStroller.find({ userId: userId , status: 'moderated'}).limit(limit).skip(skip).populate('userId');
+
+    try {
+        res.json(result);
+    }catch (err) {
+        next();
+    }
+}
+
+
+async function adminModerateStroller(req , res , next) {
+    const { strollerId } = req.params;
+    const { _id: userId } = req.user;
+
+    const admin = await userModel.findById(userId);
+
+    const index = admin.babyStrollers.indexOf(strollerId);
+    admin.babyStrollers.splice(index, 1);
+    await admin.save();
+
+    const stroller = await babyStroller.findById(strollerId);
+    stroller.status = 'moderated';
+
+    await stroller.save();
+
+    try {
+      res.json(stroller);
+    } catch (err){
+      next()
+    }
+}
+
+async function adminApproveStroller(req , res , next) {
+    const { strollerId } = req.params;
+    const { _id: userId } = req.user;
+
+    const admin = await userModel.findById(userId);
+
+    const index = admin.babyStrollers.indexOf(strollerId);
+    admin.babyStrollers.splice(index, 1);
+    await admin.save();
+
+    const stroller = await babyStroller.findById(strollerId);
+    stroller.status = 'active';
+
+    await stroller.save();
+
+    try {
+      res.json(stroller);
+    } catch (err){
+      next()
     }
 }
 
@@ -235,5 +348,10 @@ module.exports = {
     getUserStrollers,
     getStrollersLength,
     getUserStrollersLength,
-    strollersBySearchLength
+    strollersBySearchLength,
+    getStrollersForAdmin,
+    adminModerateStroller,
+    adminApproveStroller,
+    getUserStrollersHolding,
+    getUserStrollersModerated
 }

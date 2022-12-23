@@ -69,7 +69,7 @@ export class CatalogDetailsPageComponent implements OnInit {
     const strollerId = this.activateRoute.snapshot.params['id'];
 
     this.strollersService.deleteStroller$(strollerId).subscribe({
-      next: () => this.router.navigate(['/strollers']),
+      next: () => this.router.navigate([`/strollers/userStrollers/${this.userId}`]),
       complete: () => console.log('complete delete stroller'),
       error: (err) => {
         console.error(err);

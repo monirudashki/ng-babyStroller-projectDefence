@@ -7,6 +7,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { StrollersService } from './strollers.service';
 import { CommentService } from './comment.service';
+import { AdminService } from './admin.service';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ export class CoreModule {
      providers: [
       StrollersService,
       CommentService,
+      AdminService,
        {
          provide: HTTP_INTERCEPTORS,
          multi: true,

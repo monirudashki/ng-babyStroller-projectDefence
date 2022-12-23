@@ -7,6 +7,7 @@ export interface IUser {
     username: string;
     password: string;
     _id: string;
+    roles: string;
     created_at: string;
     updatedAt: string;
     __v: number;

@@ -10,6 +10,7 @@ export interface IBabyStroller {
   likes: string[];
   comments: IComment[];
   userId: IUser;
+  status: string;
   _id: string;
   created_at: string;
   updatedAt: string;

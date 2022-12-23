@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
+import { IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
 
 @Component({
@@ -12,8 +14,12 @@ import { StrollersService } from 'src/app/core/strollers.service';
 })
 export class CatalogEditPageComponent implements OnInit {
   
-  isEditActive: boolean = false;
   title: string = 'Edit Page';
+
+  currentUser$: Observable<IUser> = this.authService.currentUser$;
+  currentUser: IUser = undefined as unknown as IUser;
+  
+  isEditActive: boolean = false;
 
   errorMessage: string = '';
    
@@ -37,6 +43,12 @@ export class CatalogEditPageComponent implements OnInit {
 
     const strollerId = this.activateRoute.snapshot.params['id'];
 
+    this.currentUser$.subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      }
+    });
+
     this.strollersService.loadStrollerById$(strollerId).subscribe((stroller) => {
        this.editFormGroup.patchValue({
         babyStrollerBrand: stroller.babyStrollerBrand,
@@ -56,7 +68,7 @@ export class CatalogEditPageComponent implements OnInit {
     this.strollersService.updateStroller$(this.editFormGroup.value , strollerId).subscribe({
       next: () => {
         this.isEditActive = false;
-        this.router.navigate([`/strollers/${strollerId}`])
+        this.router.navigate([`strollers/userStrollers/${this.currentUser._id}`]);
       } ,
       complete: () => console.log('complete edit stroller'),
       error: (err) => {

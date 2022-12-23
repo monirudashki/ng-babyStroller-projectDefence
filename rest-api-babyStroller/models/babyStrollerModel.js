@@ -24,6 +24,12 @@ const babyStrollerSchema = new mongoose.Schema({
         required: true,
         enum: ['new' , 'use']
     },
+    status: {
+        type: String,
+        required: true,
+        enum: ['active' , 'holding' , 'moderated'],
+        default: 'holding'
+    },
     likes: [{
         type: ObjectId,
         ref: "User"

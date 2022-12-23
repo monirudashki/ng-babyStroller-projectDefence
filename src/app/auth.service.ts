@@ -15,8 +15,20 @@ export class AuthService {
   
   currentUser$ = this.store.select(globalState => globalState.currentUser);
   isLogged$ = this.currentUser$.pipe(
+    tap((user) => console.log(user)),
     map((user) => !!user)
   );
+
+  isAdmin$ = this.currentUser$.pipe(
+    tap((user) => console.log(user.roles)),
+    map((user) => {
+      if(user.roles == 'admin') {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  )
 
   constructor(private httpClient: HttpClient , private store: Store<IRootState>) { }
 

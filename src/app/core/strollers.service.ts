@@ -54,6 +54,14 @@ export class StrollersService {
     return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/userStrollers/${userId}?page=${page}` , {withCredentials: true});
   }
 
+  loadUserStrollersHolding$(userId: string): Observable<IBabyStroller[]> {
+    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/userStrollers/${userId}/holding` , {withCredentials: true});
+  }
+
+  loadUserStrollersModerated$(userId: string): Observable<IBabyStroller[]> {
+    return this.httpClient.get<IBabyStroller[]>(`${environment.apiUrl}/stroller/userStrollers/${userId}/moderated` , {withCredentials: true});
+  }
+
   getUserStrollersLength$(userId: string): Observable<number> {
     return this.httpClient.get<number>(`${environment.apiUrl}/stroller/userStrollersLength/${userId}` , { withCredentials: true });
   }

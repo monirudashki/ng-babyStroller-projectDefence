@@ -32,6 +32,10 @@ const routes: Routes = [
     component: SearchDetailsPageComponent
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./feature/admin/admin.module').then(module => module.AdminModule)
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   },

@@ -6,6 +6,10 @@ const { themeController, postController } = require('../controllers');
 // middleware that is specific to this router
 
 router.get('/', themeController.getThemes);
+router.get('/admin' , themeController.getStrollersForAdmin);
+router.get('/admin/:strollerId/moderate' , auth(), themeController.adminModerateStroller);
+router.get('/admin/:strollerId/approve' , auth(), themeController.adminApproveStroller);
+
 router.get('/strollersLength', themeController.getStrollersLength) 
 router.post('/', auth(), themeController.createTheme);
 router.put('/:strollerId/edit' , auth(), themeController.editStroller);
@@ -16,6 +20,8 @@ router.get('/search' , themeController.strollersBySearch);
 router.get('/searchLength' , themeController.strollersBySearchLength);
 router.get('/userStrollers/:userId' , auth() , themeController.getUserStrollers);
 router.get('/userStrollersLength/:userId' , auth() , themeController.getUserStrollersLength);
+router.get('/userStrollers/:userId/holding' , auth() , themeController.getUserStrollersHolding);
+router.get('/userStrollers/:userId/moderated' , auth() , themeController.getUserStrollersModerated);
 
 router.get('/:themeId', themeController.getTheme);
 router.post('/:strollerId/createPost', auth(), postController.createPost);

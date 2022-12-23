@@ -1,0 +1,43 @@
+<section>
+    <h2>Admin Strollers to approve or moderated</h2>
+
+    <div class="catalog">
+        <div class="spinner" *ngIf="!strollersCatalog">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <ng-container *ngIf="!!strollersCatalog">
+            <ul>
+                <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
+                    <li class="card">
+                        <img src="{{stroller.imageUrl}}" alt="travis" />
+                        <p *ngIf="stroller.babyStrollerBrand.length > 12">
+                          <strong>Brand: </strong><span class="brand">{{ (stroller.babyStrollerBrand | slice:0:12)}}...</span>
+                        </p>
+                        <p *ngIf="stroller.babyStrollerBrand.length <= 12">
+                            <strong>Brand: </strong><span class="brand">{{stroller.babyStrollerBrand}}</span>
+                        </p>
+                        <p>Value:<span class="value">{{stroller.price}}</span>$</p>
+                        <p>Condition:<span class="value">{{stroller.condition}}</span></p>
+                        <p>CreatedAt:<span class="value">{{stroller.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
+                        <p>Status:<span class="value">{{stroller.status}}</span></p>
+                        <p>Owner:<span class="value">{{stroller.userId.username}}</span></p>
+                        <div class="buttons">
+                            <button class="details-btn2" type="button" (click)="approveStrollerHandle(stroller._id)">Approve</button>
+                            <button class="details-btn"type="button" (click)="moderateStrollerHandle(stroller._id)">Moderate</button>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+            <div class="pagination" *ngIf="strollersCatalog.length > 0">
+                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
+                <p>{{page}}/{{lastPage}}</p>
+                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
+            </div>
+
+            <div *ngIf="strollersCatalog.length === 0">
+                <h2>There are no items added yet.</h2>
+            </div>
+        </ng-container>
+    </div>
+</section>

@@ -1,10 +1,17 @@
 <header>
-    <!-- Navigation -->
-    <a id="logo" routerLink="/home"
-      ><img id="logo-img" src="../../../assets/cute-baby-logo-design-vector_56473-234.webp" alt=""
-    /></a>
+  <!-- Navigation -->
+  <a id="logo" routerLink="/home"><img id="logo-img" src="../../../assets/cute-baby-logo-design-vector_56473-234.webp"
+      alt="" /></a>
+  <nav>
+    <ng-container *ngIf="(currentUser$ | async)?.roles === 'admin'">
+      <div class="user">
+        <a [routerLink]="['/admin']" [queryParams]="{page:'1'}">Admin Catalog</a>
+        <a href="javascript:void(0)" (click)="logoutHandler()">Logout</a>
+      </div>
 
-    <nav>
+    </ng-container>
+
+    <ng-container *ngIf="(currentUser$ | async)?.roles !== 'admin'">
       <div>
         <a [routerLink]="['/strollers']" [queryParams]="{page:'1'}">Catalog</a>
         <a routerLink="/search">Search</a>
@@ -14,7 +21,7 @@
       <div *ngIf="!!(isLogged$ | async)" class="user">
         <a routerLink="/strollers/create">Add+</a>
         <a routerLink="/auth/profile">{{ (currentUser$ | async)?.username }}</a>
-        <a (click)="logoutHandler()">Logout</a>
+        <a href="javascript:void(0)" (click)="logoutHandler()">Logout</a>
       </div>
 
       <!-- Guest users -->
@@ -22,5 +29,6 @@
         <a routerLink="/auth/login">Login</a>
         <a routerLink="/auth/register">Register</a>
       </div>
-    </nav>
+    </ng-container>
+  </nav>
 </header>

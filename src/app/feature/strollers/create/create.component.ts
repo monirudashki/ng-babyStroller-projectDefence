@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
+import { IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
 
 @Component({
@@ -12,6 +15,8 @@ import { StrollersService } from 'src/app/core/strollers.service';
 export class CreateComponent implements OnInit {
 
   isCreateActive: boolean = false;
+  currentUser$: Observable<IUser> = this.authService.currentUser$;
+  currentUser: IUser = undefined as unknown as IUser;
 
   title: string = 'Add stroller Page';
 
@@ -25,10 +30,22 @@ export class CreateComponent implements OnInit {
     condition: new FormControl('' , [Validators.required]),
   })
 
-  constructor(private formBuilder: FormBuilder , private routes: Router , private strollerService: StrollersService , private router: Router , private titleService: Title) { }
+  constructor(
+     private formBuilder: FormBuilder ,
+     private routes: Router , 
+     private strollerService: StrollersService ,
+     private router: Router ,
+     private titleService: Title,
+     private authService: AuthService) { }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
+
+    this.currentUser$.subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      }
+    });
   }
 
   createHandle(): void {
@@ -37,8 +54,8 @@ export class CreateComponent implements OnInit {
     this.strollerService.createStroller$(this.createFormGroup.value).subscribe({
        next: () => {
         this.isCreateActive = false;
-        this.router.navigate(['/strollers'])
-       } ,
+        this.router.navigate([`strollers/userStrollers/${this.currentUser._id}`]);
+       },
        complete: () => console.log('complete create stroller'),
        error: (err) => {
          this.isCreateActive = false;

@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "babyStroller"
     }],
+    roles: {
+        type: String,
+        required: true,
+        enum: ['user' , 'admin'],
+        default: 'user'
+    }
 }, { timestamps: { createdAt: 'created_at' } });
 
 userSchema.methods = {
