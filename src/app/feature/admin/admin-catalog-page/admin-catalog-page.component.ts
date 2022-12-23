@@ -5,8 +5,6 @@ import { map, Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { IBabyStroller, IUser } from 'src/app/core/interfaces';
 import { StrollersService } from 'src/app/core/strollers.service';
-import { Store } from '@ngrx/store';
-import { IRootState } from 'src/app/+store';
 import { AdminService } from 'src/app/core/admin.service';
 import { SubscriptionsContainer } from 'src/app/core/subscription.container';
 
@@ -63,6 +61,7 @@ export class AdminCatalogPageComponent implements OnInit , OnDestroy{
       next: (stroller) => {
         const index = this.strollersCatalog.indexOf(stroller);
         this.strollersCatalog.splice(index , 1);
+        this.router.navigate(['/home']);
       },
       complete: () => console.log('complete moderate stroller by admin'),
       error: (err) => {
@@ -76,6 +75,7 @@ export class AdminCatalogPageComponent implements OnInit , OnDestroy{
       next: (stroller) => {
         const index = this.strollersCatalog.indexOf(stroller);
         this.strollersCatalog.splice(index , 1);
+        this.router.navigate(['/home']);
       },
       complete: () => console.log('complete approve stroller by admin'),
       error: (err) => {
