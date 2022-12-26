@@ -71,6 +71,9 @@ export class UserStrollersPageComponent implements OnInit , OnDestroy {
     this.subs.add = this.authService.loadUserProfileById$(userId).subscribe({
       next: (user) => {
           this.username = user.username;
+      },
+      error: (err) => {
+        this.router.navigate(['/page-not-found']);
       }
     })
 
@@ -81,11 +84,18 @@ export class UserStrollersPageComponent implements OnInit , OnDestroy {
          if(this.lastPage < 1) {
            this.lastPage = 1;
          }
+         if(!(this.page <= this.lastPage)) {
+          this.router.navigate(['not-found-page'])
+        }
       }
     )
 
     this.subs.add = this.strollersService.loadUserStrollers$(userId , this.page).subscribe({
       next: (strollers) => {
+        console.log(strollers);
+        if(!strollers) {
+          this.router.navigate(['/not-found-page']);
+        }
         this.strollersCatalog = strollers;
         this.router.navigate([], {
           relativeTo: this.activateRoute,
@@ -94,6 +104,9 @@ export class UserStrollersPageComponent implements OnInit , OnDestroy {
           },
           queryParamsHandling: 'merge',
         });
+      }, 
+      error: (err) => {
+        this.router.navigate(['/not-found-page']);
       }
     });
     

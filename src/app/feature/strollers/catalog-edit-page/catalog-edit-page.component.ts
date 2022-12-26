@@ -52,15 +52,21 @@ export class CatalogEditPageComponent implements OnInit , OnDestroy {
       }
     });
 
-    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe((stroller) => {
-       this.editFormGroup.patchValue({
-        babyStrollerBrand: stroller.babyStrollerBrand,
-        imageUrl: stroller.imageUrl,
-        price: stroller.price,
-        year: stroller.year,
-        condition: stroller.condition
-       })
-    })
+    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe({
+      next: (stroller) => {
+      if(!stroller) {
+        this.router.navigate(['/not-found-page']);
+      }
+      this.editFormGroup.patchValue({
+      babyStrollerBrand: stroller.babyStrollerBrand,
+      imageUrl: stroller.imageUrl,
+      price: stroller.price,
+      year: stroller.year,
+      condition: stroller.condition
+      })},
+      error: (err) => {
+        this.router.navigate(['/not-found-page']);
+      }})
   }
   
   editHandle(): void {

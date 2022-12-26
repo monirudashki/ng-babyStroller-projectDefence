@@ -4,6 +4,7 @@ const { newPost } = require('./postController')
 
 async function getThemes(req, res, next) {
     const page = req.query.page;
+    
     const limit = 3;
     
     const skip = (page - 1) * limit;

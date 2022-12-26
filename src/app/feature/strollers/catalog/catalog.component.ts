@@ -33,6 +33,9 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.subs.add = this.strollersService.getStrollersLength$().subscribe(
       (strollersLength) => {
         this.lastPage = Math.ceil(strollersLength / this.limit);
+        if(!(this.page <= this.lastPage)) {
+          this.router.navigate(['not-found-page'])
+        }
       }
     )
 

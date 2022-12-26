@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/app/core/guards/auth.guard";
+import { PageNotFoundComponent } from "../pages/page-not-found/page-not-found.component";
 import { CatalogDetailsPageComponent } from "./catalog-details-page/catalog-details-page.component";
 import { CatalogEditPageComponent } from "./catalog-edit-page/catalog-edit-page.component";
 import { CatalogComponent } from "./catalog/catalog.component";
@@ -14,6 +15,7 @@ const routes: Routes = [
     },
     {
         path: 'create',
+        pathMatch: 'full',
         canActivate: [AuthGuard],
         component: CreateComponent
     },

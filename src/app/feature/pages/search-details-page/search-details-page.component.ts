@@ -37,6 +37,9 @@ export class SearchDetailsPageComponent implements OnInit , OnDestroy {
       this.subs.add = this.strollersService.getResultBySearchLength$(this.searchBy , this.search).subscribe({
         next: (length) => {
           this.lastPage = Math.ceil(length / this.limit);
+          if(!(this.page <= this.lastPage)) {
+            this.router.navigate(['/page-not-found']);
+          }
         }
       })
 

@@ -12,13 +12,14 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.authService.isAdmin$.pipe(
-      tap((user) => {
-        console.log(user);
-        if (user) {
+      tap((admin) => {
+        console.log(admin);
+        if(admin) {
           return true;
+        } else {
+          console.log('navigate to home');
+          return this.router.navigate(['/home']);
         }
-
-        return this.router.createUrlTree(['/home']);
       })
     );
   }

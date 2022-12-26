@@ -53,7 +53,11 @@ export class CatalogDetailsPageComponent implements OnInit , OnDestroy {
       }
     });
     
-    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe(stroller => {
+    this.subs.add = this.strollersService.loadStrollerById$(strollerId).subscribe({
+      next: (stroller) => {
+      if(!stroller) {
+        this.router.navigate(['/not-found-page']);
+      }
       const ownerId = stroller.userId.toString();
 
       if(!stroller.likes.includes(this.userId)) {
@@ -65,7 +69,10 @@ export class CatalogDetailsPageComponent implements OnInit , OnDestroy {
       }
       this.stroller = stroller;
       this.commentsList = stroller.comments;
-    });
+      },
+      error: (err) => {
+        this.router.navigate(['/not-found-page']);
+      }})
   }
 
   deleteStrollerHandle(): void {
