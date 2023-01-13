@@ -1,34 +1,28 @@
 <header>
   <!-- Navigation -->
-  <a id="logo" routerLink="/home"><img id="logo-img" src="../../../assets/cute-baby-logo-design-vector_56473-234.webp"
+  <a id="logo" routerLink="/home"><img id="logo-img" src="../../../assets/logobaby.jpg"
       alt="" /></a>
   <nav>
     <ng-container *ngIf="(currentUser$ | async)?.roles === 'admin'">
-      <div class="user">
-        <a [routerLink]="['/admin']" [queryParams]="{page:'1'}">Admin Catalog</a>
-        <a href="javascript:void(0)" (click)="logoutHandler()">Logout</a>
-      </div>
-
+      <a [routerLink]="['/admin']" [queryParams]="{page:'1'}">Admin Catalog</a>
+      <a href="javascript:void(0)" (click)="logoutHandler()">Logout</a>
     </ng-container>
 
     <ng-container *ngIf="(currentUser$ | async)?.roles !== 'admin'">
-      <div>
-        <a [routerLink]="['/strollers']" [queryParams]="{page:'1'}">Catalog</a>
-        <a routerLink="/search">Search</a>
-      </div>
+      <a [routerLink]="['/strollers']" [queryParams]="{page:'1'}">Catalog<i class="fa-solid fa-baby-carriage"></i></a>
+      <a routerLink="/search">Search<i class="fa-sharp fa-solid fa-magnifying-glass"></i></a>
 
-      <!-- Logged-in users -->
-      <div *ngIf="!!(isLogged$ | async)" class="user">
-        <a routerLink="/strollers/create">Add+</a>
-        <a routerLink="/auth/profile">{{ (currentUser$ | async)?.username }}</a>
-        <a href="javascript:void(0)" (click)="logoutHandler()">Logout</a>
-      </div>
+      <ng-container *ngIf="!!(isLogged$ | async)">
+        <a routerLink="/strollers/create">Add<i class="fa-solid fa-plus"></i></a>
+        <a routerLink="/auth/profile">{{ (currentUser$ | async)?.username }}<i class="fa-regular fa-user"></i></a>
+        <a href="javascript:void(0)" (click)="logoutHandler()">Logout<i class="fa-sharp fa-solid fa-door-open"></i></a>
+      </ng-container>
 
-      <!-- Guest users -->
-      <div *ngIf="!(isLogged$ | async)" class="guest">
-        <a routerLink="/auth/login">Login</a>
-        <a routerLink="/auth/register">Register</a>
-      </div>
+
+      <ng-container *ngIf="!(isLogged$ | async)">
+        <a routerLink="/auth/login">Login<i class="fa-solid fa-user-plus"></i></a>
+        <a routerLink="/auth/register">Register<i class="fa-solid fa-user-plus"></i></a>
+      </ng-container>
     </ng-container>
   </nav>
 </header>
