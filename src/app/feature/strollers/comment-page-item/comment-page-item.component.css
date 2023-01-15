@@ -11,6 +11,7 @@
   border-radius: 0.3em;
   width: 100%;
   padding: 1em;
+  overflow: auto;
   }
   
   .comment header p {
@@ -24,6 +25,7 @@
   .comment-main {
   margin: 1em;
   display: flex;
+  overflow: auto;
   }
   
   .userdetails {
@@ -35,6 +37,10 @@
   .userdetails p {
   padding-left: 0;
   text-align: left;
+  }
+
+  .post-content {
+    max-width: 100px;
   }
   
   .post-content p {

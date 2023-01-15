@@ -1,24 +1,23 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-#create {
-  margin-top: 0px;
-}
-
 .form {
   background: #ffffff;
   max-width: 460px;
-  margin: auto;
-  margin-top: 100px;
-  padding: 45px;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%);
+  padding: 35px;
   text-align: center;
   border-radius: 30px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  overflow: hidden;
 }
 
 .form h2 {
   margin-top: 0px;
-  margin-bottom: 30px;
-  font-size: 30px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
 
 .form input {
@@ -60,7 +59,7 @@
   font-weight: bold;
   outline: 0;
   background: #989999;
-  width: 50%;
+  width: 30%;
   border: 0;
   padding: 15px;
   color: #ffffff;
@@ -100,7 +99,10 @@
 }
 
 .buttons {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 p.error {

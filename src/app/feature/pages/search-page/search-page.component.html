@@ -1,33 +1,33 @@
-<section id="search">
-    <div class="select">
-        <h2>Search by:</h2>
-        <select (change) = "searchByHandler($any($event.target).value)" name="searchBy" id="searchBy">
-                <option value="babyStrollerBrand">Brand</option>
-                <option value="condition">Condition</option>
-                <option value="price">Price</option>
+<div class="select">
+    <h2>Search by:</h2>
+    <select (change)="searchByHandler($any($event.target).value)" name="searchBy" id="searchBy">
+        <option value="babyStrollerBrand">Brand</option>
+        <option value="condition">Condition</option>
+        <option value="price">Price</option>
+    </select>
+
+    <form class="brand" *ngIf="searchingBY === 'babyStrollerBrand'" [formGroup]="searchFormGroup"
+        (ngSubmit)="searchByBrandHandler()">
+
+        <input id="#search-input" type="text" name="search" placeholder="Search here..." formControlName="search" />
+        <button [disabled]="isSearchActive" type="submit">Search</button>
+    </form>
+
+    <form class="condition" *ngIf="searchingBY === 'condition'" [formGroup]="searchByConditionFormGroup"
+        (ngSubmit)="searchByConditionHandler()">
+
+        <select name="searchBy" id="searchBy" formControlName="searchByCondition">
+            <option value="new">New</option>
+            <option value="use">Use</option>
         </select>
+        <button [disabled]="isSearchActive" type="submit">Search</button>
+    </form>
 
-        <form class="brand" *ngIf="searchingBY === 'babyStrollerBrand'" [formGroup]="searchFormGroup" (ngSubmit)="searchByBrandHandler()">
-         
-            <input id="#search-input" type="text" name="search" placeholder="Search here..." formControlName="search"/>
-            <button [disabled]="isSearchActive" type="submit">Search</button>
-        </form>
+    <form class="price" *ngIf="searchingBY === 'price'" [formGroup]="searchByPriceFormGroup"
+        (ngSubmit)="searchByPriceHandler()">
+        <input type="number" id="quantity" name="quantity" step="10" formControlName="min">
+        <input type="number" id="quantity" name="quantity" step="10" formControlName="max">
 
-        <form class="condition" *ngIf="searchingBY === 'condition'" [formGroup]="searchByConditionFormGroup" (ngSubmit)="searchByConditionHandler()">
-         
-            <select name="searchBy" id="searchBy" formControlName="searchByCondition">
-                <option value="new">New</option>
-                <option value="use">Use</option>
-            </select>
-            <button [disabled]="isSearchActive" type="submit">Search</button>
-        </form>
-
-        <form class="price" *ngIf="searchingBY === 'price'" [formGroup]="searchByPriceFormGroup" (ngSubmit)="searchByPriceHandler()">
-            <input type="number" id="quantity" name="quantity" step="10" formControlName="min">
-            <input type="number" id="quantity" name="quantity" step="10" formControlName="max">
-    
-            <button [disabled]="isSearchActive" type="submit">Search</button>
-        </form>   
-    </div>
-</section>
-
+        <button [disabled]="isSearchActive" type="submit">Search</button>
+    </form>
+</div>

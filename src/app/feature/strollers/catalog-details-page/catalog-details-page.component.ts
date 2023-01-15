@@ -28,6 +28,8 @@ export class CatalogDetailsPageComponent implements OnInit , OnDestroy {
   canLike: boolean = false;
   commentsList!: IComment[];
   user!: IUser
+  views: number = Math.ceil(Math.random() * 150);
+  online!: boolean;
 
   commentFormGroup: FormGroup = this.formBuilder.group({
     postText: new FormControl("" , [Validators.required])
@@ -72,7 +74,13 @@ export class CatalogDetailsPageComponent implements OnInit , OnDestroy {
       },
       error: (err) => {
         this.router.navigate(['/not-found-page']);
-      }})
+      }});
+
+      if((Math.ceil(Math.random() * 150)) % 2 != 0) {
+        this.online = true;
+      } else {
+        this.online = false;
+      }
   }
 
   deleteStrollerHandle(): void {

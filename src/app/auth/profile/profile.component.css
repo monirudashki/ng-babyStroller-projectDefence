@@ -1,9 +1,18 @@
+:root {
+    --color-primary: #008B74;
+    --color-primary-2: #00C2A8;
+    --color-primary-3: #4FFBDF;
+}
+
 .profile {
     width: 100%;
     max-width: 500px;
-    margin: 2em auto 1rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     padding: .5em;
-    border: .3em solid rgb(0, 212, 255);
+    border: .3em solid var(--color-primary);
     border-radius: .5rem;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #444;
@@ -40,21 +49,15 @@
     font-weight: bold;
 }
 
-.profile button {
-    color: white;
-    border: none;
-    border-radius: 0.3em;
-    padding: 0.6em 1.2em;
-    outline: none;
-}
 
-.flex > input, .flex > div {
+.flex>input,
+.flex>div {
     width: 55%;
     text-align: left;
     margin: .5em;
 }
 
-.flex > div > input {
+.flex>div>input {
     width: 77%;
 }
 
@@ -66,28 +69,42 @@
     background-color: red;
 }
 
-.green-button {
-    background-color: green;
-}
-
 .blue-button {
-    background-color: blue;
+    background-color: var(--color-primary);
 }
 
- .error {
-  text-align: center;
-  border-radius: 0.3em;
-  color: red;
-  padding-top: 0;
-  margin-bottom: 5px;
+.buttons , .buttonsInEdit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
-.profile a {
-  display: block;
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-top: 10px;
-  font-size: 20px;
-  color: white;
-  background-color: blue;
+.buttons button:hover , .buttons a:hover {
+    background-color: white;
+    color: var(--color-primary);
+}
+
+.buttons button,
+.buttonsInEdit button,
+.buttons a {
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    padding: 0.6em 1.2em;
+    outline: none;
+    cursor: pointer;
+}
+
+.userStrollers {
+    background-color: #008B74;
+    text-decoration: none;
+}
+
+.error {
+    text-align: center;
+    border-radius: 0.3em;
+    color: red;
+    padding-top: 0;
+    margin-bottom: 5px;
 }

@@ -13,8 +13,10 @@
             <p>Phone: </p>
             <p>{{(currentUser$ | async)?.tel}}</p>
         </div>
-        <button (click)="editHandler()" class="blue-button">Edit</button>
-        <a routerLink='/strollers/userStrollers/{{(currentUser$ | async)?._id}}'>User Strollers</a>
+        <div class="buttons">
+            <button (click)="editHandler()" class="blue-button">Edit Profile</button>
+            <a class="userStrollers" routerLink='/strollers/userStrollers/{{(currentUser$ | async)?._id}}'>User Strollers</a>
+        </div>
     </div>
 </ng-container>
 
@@ -66,10 +68,12 @@
                     <input type="text" name="tel" id="tel" value="885 888 888" formControlName="tel">
                 </div>
             </div>
-            <button type="button" (click)="cancelHandler()" class="red-button">Cancel</button>
-            <button *ngIf="!isUpdating" [disabled]="profileEditFormGroup.invalid"
-                [ngStyle]="{'backgroundColor': profileEditFormGroup.valid === false ? 'red' : 'green' }"
-                class="green-button">Save</button>
+            <div class="buttonsInEdit">
+                <button type="button" (click)="cancelHandler()" class="red-button">Cancel</button>
+                <button *ngIf="!isUpdating" [disabled]="profileEditFormGroup.invalid"
+                    [ngStyle]="{'backgroundColor': profileEditFormGroup.valid === false ? 'red' : 'green' }"
+                    class="green-button">Save</button>
+            </div>
         </form>
     </div>
 </div>

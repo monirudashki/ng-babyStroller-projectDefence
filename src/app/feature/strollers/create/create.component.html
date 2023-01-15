@@ -1,23 +1,23 @@
-<section id="create">
-    <div class="form">
-
+<div class="form">
         <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
-
+    
         <h2>Add item</h2>
         <form [formGroup]="createFormGroup" (ngSubmit)="createHandle()" class="create-form">
             <label for="brand">*Brand: </label>
-            <input type="text" name="brand" id="brand" placeholder="Brand" formControlName="babyStrollerBrand"/>
-            
-            <ng-container *ngIf="createFormGroup.controls['babyStrollerBrand'].touched && createFormGroup.controls['babyStrollerBrand'].invalid">
+            <input type="text" name="brand" id="brand" placeholder="Brand" formControlName="babyStrollerBrand" />
+    
+            <ng-container
+                *ngIf="createFormGroup.controls['babyStrollerBrand'].touched && createFormGroup.controls['babyStrollerBrand'].invalid">
                 <p *ngIf="createFormGroup.controls['babyStrollerBrand'].errors!['required']" class="error">
                     Babystroller brand is required!
                 </p>
             </ng-container>
-            
+    
             <label for="imageUrl">*Image: </label>
-            <input type="text" name="imageUrl" id="imageUrl" placeholder="imageUrl" formControlName="imageUrl"/>
-
-            <ng-container *ngIf="createFormGroup.controls['imageUrl'].touched && createFormGroup.controls['imageUrl'].invalid">
+            <input type="text" name="imageUrl" id="imageUrl" placeholder="imageUrl" formControlName="imageUrl" />
+    
+            <ng-container
+                *ngIf="createFormGroup.controls['imageUrl'].touched && createFormGroup.controls['imageUrl'].invalid">
                 <p *ngIf="createFormGroup.controls['imageUrl'].errors!['required']" class="error">
                     imageUrl is required!
                 </p>
@@ -25,44 +25,47 @@
                     imageUrl must be a valid link!
                 </p>
             </ng-container>
-            
+    
             <label for="year">*Year: </label>
-            <input type="number" name="year" id="year" placeholder="Year" formControlName="year"/>
-
+            <input type="number" name="year" id="year" placeholder="Year" formControlName="year" />
+    
             <ng-container *ngIf="createFormGroup.controls['year'].touched && createFormGroup.controls['year'].invalid">
                 <p *ngIf="createFormGroup.controls['year'].errors!['required']" class="error">
                     Year is required!
                 </p>
             </ng-container>
-            
+    
             <label for="year">*Price: </label>
-            <input type="number" name="model" id="price" placeholder="Price" formControlName="price"/>
-
+            <input type="number" name="model" id="price" placeholder="Price" formControlName="price" />
+    
             <ng-container *ngIf="createFormGroup.controls['price'].touched && createFormGroup.controls['price'].invalid">
                 <p *ngIf="createFormGroup.controls['price'].errors!['required']" class="error">
                     Price is required!
                 </p>
                 <p *ngIf="createFormGroup.controls['price'].errors!['min']" class="error">
                     Price must be positive number!
-                </p>               
+                </p>
             </ng-container>
-
+    
             <label for="condition">*Condition: </label>
             <select name="condition" id="condition" formControlName="condition">
                 <option value="new">New</option>
                 <option value="use">Use</option>
             </select>
-
-            <ng-container *ngIf="createFormGroup.controls['condition'].touched && createFormGroup.controls['condition'].invalid">
+    
+            <ng-container
+                *ngIf="createFormGroup.controls['condition'].touched && createFormGroup.controls['condition'].invalid">
                 <p *ngIf="createFormGroup.controls['condition'].errors!['required']" class="error">
                     Condition is required!
                 </p>
             </ng-container>
-            
+    
             <div class="buttons">
                 <button type="button" (click)="cancelHandle()">cancel</button>
-                <button type="submit" *ngIf="!isCreateActive" [disabled]="createFormGroup.invalid" [ngStyle]="{'backgroundColor': createFormGroup.valid === false ? 'red' : 'green' }">Post</button>
+                <button type="submit" *ngIf="!isCreateActive" [disabled]="createFormGroup.invalid"
+                    [ngStyle]="{'backgroundColor': createFormGroup.valid === false ? 'red' : 'green' }">Post</button>
             </div>
         </form>
-    </div>
-</section>
+</div>
+
+

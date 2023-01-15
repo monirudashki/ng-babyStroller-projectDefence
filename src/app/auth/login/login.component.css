@@ -22,6 +22,10 @@
   font-size: 30px;
 }
 
+.fa-envelope {
+  font-size: 14px;
+}
+
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;

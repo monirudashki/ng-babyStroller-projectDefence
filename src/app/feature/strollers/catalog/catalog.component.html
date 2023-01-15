@@ -1,27 +1,23 @@
-<section>
-    <h2>Strollers</h2>
+<div class="catalog">
+    <h2>Strollers Catalog</h2>
+    <div class="spinner" *ngIf="!strollersCatalog">
+        <mat-spinner></mat-spinner>
+    </div>
 
-    <div class="catalog">
-        <div class="spinner" *ngIf="!strollersCatalog">
-            <mat-spinner></mat-spinner>
+    <ng-container *ngIf="!!strollersCatalog">
+        <div class="catalog-container">
+            <div *ngFor="let stroller of strollersCatalog" class="card-container">
+                <app-catalog-item [stroller]="stroller"></app-catalog-item>
+            </div>
+        </div>
+        <div class="pagination" *ngIf="strollersCatalog.length > 0">
+            <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button"><</button>
+            <span>{{page}}/{{lastPage}}</span>
+            <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">></button>
         </div>
 
-        <ng-container *ngIf="!!strollersCatalog">
-            <ul>
-                <div *ngFor="let stroller of strollersCatalog" class="card-wrapper">
-                    <app-catalog-item [stroller]="stroller"></app-catalog-item>
-                </div>
-            </ul>
-            <div class="pagination" *ngIf="strollersCatalog.length > 0">
-                <button class="button" [disabled]="page == 1" (click)="pageMinusHandler()" type="button">Previous</button>
-                <p>{{page}}/{{lastPage}}</p>
-                <button class="button" [disabled]="page == lastPage" type="button" (click)="pagePlusHandler()">Next</button>
-            </div>
-
-            <div *ngIf="strollersCatalog.length === 0">
-                <h2>There are no items added yet.</h2>
-            </div>
-        </ng-container>
-    </div>
-</section>
-
+        <div *ngIf="strollersCatalog.length === 0">
+            <h3>There are no items added yet.</h3>
+        </div>
+    </ng-container>
+</div>

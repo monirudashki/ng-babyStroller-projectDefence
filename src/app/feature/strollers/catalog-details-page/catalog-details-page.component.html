@@ -1,64 +1,75 @@
 <ng-container *ngIf="!!stroller else loadingIndicator">
-  <main>
-    <div class="left-side">
-      <div id="details-wrapper">
-        <p id="details-title">Stroller Details</p>
-        <div id="img-wrapper">
-          <img src="{{stroller.imageUrl}}" alt="example1" />
+  <div class="grid-container">
+    <div class="grid-item-details">
+      <div class="grid-item-details-img">
+        <img src="{{stroller.imageUrl}}" alt="example1" />
+      </div>
+      <div class="grid-item-details-info">
+        <p>Brand: <span id="details-brand">{{stroller.babyStrollerBrand}}</span></p>
+        <p>
+          Condition: <span id="details-model">{{stroller.condition}}</span>
+        </p>
+        <p>Created at: <span id="details-release">{{stroller.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
+        <p>Year: <span id="details-designer">{{stroller.year}}</span></p>
+        <p>Value: <span id="details-value">{{stroller.price}}$</span></p>
+        <p>Views: <span id="details-value">{{views}}</span></p>
+      </div>
+      
+      <div class="grid-item-details-buttons">
+        <div class="grid-item-details-buttons__owner">
+          <img src="../../../../assets/profile-pic.jpg" alt="">
+          <div class="owner-info">
+            <p>Simeon</p>
+            <p class="online" *ngIf="!!online">Online<i class="fa-solid fa-circle"></i></p>
+            <p class="offline" *ngIf="!online">Offline<i class="fa-solid fa-circle"></i></p>
+          </div>
         </div>
-        <div id="info-wrapper">
-          <p>Brand: <span id="details-brand">{{stroller.babyStrollerBrand}}</span></p>
-          <p>
-            Condition: <span id="details-model">{{stroller.condition}}</span>
-          </p>
-          <p>Created at: <span id="details-release">{{stroller.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
-          <p>Year: <span id="details-designer">{{stroller.year}}</span></p>
-          <p>Value: <span id="details-value">{{stroller.price}}$</span></p>
-          <p>Likes: <span id="details-value">{{stroller.likes.length}}</span></p>
+        <div class="grid-item-details-buttons__likes">
+          <p><i class="fa-regular fa-thumbs-up"></i><span id="details-value">{{stroller.likes.length}}</span></p>
         </div>
-  
-        <div *ngIf="isOwner" id="action-buttons">
-          <a routerLink='/strollers/{{stroller._id}}/edit' id="edit-btn">Edit</a>
-          <a href="javascript:void(0)" (click)="deleteStrollerHandle()" id="delete-btn">Delete</a>
-        </div>
-  
-        <div *ngIf="!isOwner && canLike">
-          <button type="button" class="likeButton" (click)="likeHandler()">Like</button>
-          <a class="userStrollers" routerLink='/strollers/userStrollers/{{stroller.userId}}'>User strollers</a>
-        </div>
-  
-        <div *ngIf="!isOwner && !canLike">
-          <button type="button" class="likeButton" (click)="unLikeHandler()">Unlike</button>
-          <a class="userStrollers" routerLink='/strollers/userStrollers/{{stroller.userId}}'>User strollers</a>
-        </div>
+          <div *ngIf="isOwner" class="action-buttons">
+            <a routerLink='/strollers/{{stroller._id}}/edit' id="edit-btn">Edit</a>
+            <a href="javascript:void(0)" (click)="deleteStrollerHandle()" id="delete-btn">Delete</a>
+          </div>
+    
+          <div class="action-buttons" *ngIf="!isOwner && canLike">
+            <button type="button" class="likeButton" (click)="likeHandler()">Like</button>
+            <a class="userStrollers" routerLink='/strollers/userStrollers/{{stroller.userId}}'>User strollers</a>
+          </div>
+    
+          <div class="action-buttons" *ngIf="!isOwner && !canLike">
+            <button type="button" class="likeButton" (click)="unLikeHandler()">Unlike</button>
+            <a class="userStrollers" routerLink='/strollers/userStrollers/{{stroller.userId}}'>User strollers</a>
+          </div>
       </div>
     </div>
+  <div class="grid-item-comments">
+    <h2>Comments</h2>
+    <div class="scroll">
+      <div *ngIf="commentsList.length > 0">
+        <div *ngFor="let comment of commentsList" class="post">
+          <app-comment-page-item [comment]="comment"></app-comment-page-item>
+        </div>
+      </div>
       
-    <div class="right-side">
-        <div class="scroll">
-          <div *ngIf="commentsList.length > 0">
-            <div *ngFor="let comment of commentsList" class="post">
-              <app-comment-page-item [comment]="comment"></app-comment-page-item>
-            </div>
-          </div>
-          
-          <div *ngIf="stroller.comments.length === 0">
-              <h2>There is no comments yet.</h2>
-          </div>
-        </div>
-
-        <div class="answer-comment">
-          <p><span>User</span> comment:</p>
-          <div class="answer">
-            <form [formGroup]="commentFormGroup" (ngSubmit)="postHandler()">
-              <textarea name="postText" id="comment" cols="30" rows="10" formControlName="postText" placeholder="Enter your comment here.."></textarea>
-              <button [disabled]="commentFormGroup.invalid" [ngStyle]="{'backgroundColor': commentFormGroup.valid === false ? 'red' : 'green' }">Post</button>
-            </form>
-          </div>
-        </div>
-
+      <div *ngIf="stroller.comments.length === 0">
+          <h2>There is no comments yet.</h2>
+      </div>
     </div>
-  </main>
+  </div>
+  <div class="grid-item-create">
+    <div class="answer-comment">
+      <h2>Add comment:</h2>
+      <div class="answer">
+        <form [formGroup]="commentFormGroup" (ngSubmit)="postHandler()">
+          <textarea name="postText" id="comment" cols="30" rows="10" formControlName="postText" placeholder="Enter your comment here.."></textarea>
+          <button [disabled]="commentFormGroup.invalid" [ngStyle]="{'backgroundColor': commentFormGroup.valid === false ? 'red' : 'green' }">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+        
+  </div>
 </ng-container>
 
 <ng-template #loadingIndicator>
@@ -66,3 +77,7 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-template>
+
+<!-- <p>Likes: <span id="details-value">{{stroller.likes.length}}</span></p>
+        <p id="details-title">Stroller {{stroller.babyStrollerBrand}} Details</p>
+ -->
